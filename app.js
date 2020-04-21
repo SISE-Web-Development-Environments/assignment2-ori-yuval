@@ -11,12 +11,14 @@ var start_time;
 var time_elapsed;
 var interval;
 
-$(document).ready(function() {
+
+
+$(document).ready(function () {
 	context = canvas.getContext("2d");
 	Start();
 });
 
-const monster_colors = ["pink" , "blue" , "red" , "orange"]
+const monster_colors = ["pink", "blue", "red", "orange"]
 
 //key
 // 0 - blank
@@ -49,9 +51,8 @@ function Start() {
 	for (var i = 0; i < 16; i++) {
 		board[i] = new Array();
 		//put obstacles in (i=3,j=3) and (i=3,j=4) and (i=3,j=5), (i=6,j=1) and (i=6,j=2)
-		for (var j = 0 ; j < 12; j++) {
-			if( monster_remain > 0 &&  (i==1 && j==1 || i==1 && j==10 || i == 14 && j==1 || i==14 && j == 10) )
-			{
+		for (var j = 0; j < 12; j++) {
+			if (monster_remain > 0 && (i == 1 && j == 1 || i == 1 && j == 10 || i == 14 && j == 1 || i == 14 && j == 10)) {
 				var monster = new Object();
 				monster.i = i;
 				monster.j = j;
@@ -61,10 +62,10 @@ function Start() {
 				monsters.push(monster);
 				monster_remain--;
 			}
-			else if( (i == 0 || i == 15 ) && j == 5 ){ //bridges
+			else if ((i == 0 || i == 15) && j == 5) { //bridges
 				board[i][j] = 0;
 			}
-			else if( i == 0 || i == 15 || j == 0 || j== 11){
+			else if (i == 0 || i == 15 || j == 0 || j == 11) {
 				board[i][j] = 4;
 			}
 			else if (
@@ -73,21 +74,21 @@ function Start() {
 				(i == 3 && j == 5) ||
 				(i == 6 && j == 1) ||
 				(i == 6 && j == 2) ||
-				( i >= 5 && i<= 7 && j <= 8 && j >=6 ) ||
-				( i >= 10 && i<= 12 && j <= 8 && j >=6 ) ||
-				( j > 2 && j <9 && i%6 ==0)
+				(i >= 5 && i <= 7 && j <= 8 && j >= 6) ||
+				(i >= 10 && i <= 12 && j <= 8 && j >= 6) ||
+				(j > 2 && j < 9 && i % 6 == 0)
 
 			) {
 				board[i][j] = 4;
 			} else {
 				var randomNum = Math.random();
 				if (randomNum <= (1.0 * food_remain) / cnt) {
-					var randomFood = Math.random()* food_remain;
-					if(randomFood < large_food ){
+					var randomFood = Math.random() * food_remain;
+					if (randomFood < large_food) {
 						large_food--;
 						board[i][j] = 7;
 					}
-					else if(randomFood < large_food + medium_food ){
+					else if (randomFood < large_food + medium_food) {
 						medium_food--;
 						board[i][j] = 6;
 					}
@@ -111,15 +112,15 @@ function Start() {
 	}
 	while (food_remain > 0) {
 		var emptyCell = findRandomEmptyCell(board);
-		if(large_food > 0) {
+		if (large_food > 0) {
 			large_food--;
 			board[emptyCell[0]][emptyCell[1]] = 7;
 		}
-		else if(medium_food > 0){
+		else if (medium_food > 0) {
 			medium_food--;
 			board[emptyCell[0]][emptyCell[1]] = 6;
 		}
-		else{
+		else {
 			small_food--;
 			board[emptyCell[0]][emptyCell[1]] = 5;
 		}
@@ -130,7 +131,7 @@ function Start() {
 		shape.i = emptyCell[0];
 		shape.j = emptyCell[1];
 		board[emptyCell[0]][emptyCell[1]] = 2;
-		pacman_remain --;
+		pacman_remain--;
 	}
 	//Insert Extra life
 	var emptyCell = findRandomEmptyCell(board);
@@ -147,14 +148,14 @@ function Start() {
 	keysDown = {};
 	addEventListener(
 		"keydown",
-		function(e) {
+		function (e) {
 			keysDown[e.keyCode] = true;
 		},
 		false
 	);
 	addEventListener(
 		"keyup",
-		function(e) {
+		function (e) {
 			keysDown[e.keyCode] = false;
 		},
 		false
@@ -219,7 +220,7 @@ function DrawPacManUp(center) {
 	context.fillStyle = pac_color; //color
 	context.fill();
 	context.beginPath();
-	context.arc(center.x + 15, center.y , 5, 0, 2 * Math.PI); // circle
+	context.arc(center.x + 15, center.y, 5, 0, 2 * Math.PI); // circle
 	context.fillStyle = "black"; //color
 	context.fill();
 }
@@ -242,12 +243,12 @@ function DrawHeart(center) {
 	var deltax = center.x - 37.5;
 	var deltay = center.y - 35;
 	context.moveTo(center.x, center.y - 10);
-	context.bezierCurveTo(37.5 + deltax, 18.5 + deltay, 35+ deltax, 12.5 + deltay, 25+ deltax, 12.5 + deltay);
-	context.bezierCurveTo(10 + deltax, 12.5 + deltay, 10+ deltax, 31.25 + deltay, 10+ deltax, 31.25 + deltay);
-	context.bezierCurveTo(10+ deltax, 40 + deltay, 20+ deltax, 51 + deltay, 37.5+ deltax, 60 + deltay);
-	context.bezierCurveTo(55+ deltax, 51 + deltay, 65+ deltax, 40 + deltay, 65+ deltax, 31.25 + deltay);
-	context.bezierCurveTo(65+ deltax, 31.25 + deltay, 65+ deltax, 12.5 + deltay, 50+ deltax, 12.5 + deltay);
-	context.bezierCurveTo(42.5+ deltax, 12.5 + deltay, 37.5+ deltax, 18.5+ deltay, 37.5+ deltax, 20 + deltay);
+	context.bezierCurveTo(37.5 + deltax, 18.5 + deltay, 35 + deltax, 12.5 + deltay, 25 + deltax, 12.5 + deltay);
+	context.bezierCurveTo(10 + deltax, 12.5 + deltay, 10 + deltax, 31.25 + deltay, 10 + deltax, 31.25 + deltay);
+	context.bezierCurveTo(10 + deltax, 40 + deltay, 20 + deltax, 51 + deltay, 37.5 + deltax, 60 + deltay);
+	context.bezierCurveTo(55 + deltax, 51 + deltay, 65 + deltax, 40 + deltay, 65 + deltax, 31.25 + deltay);
+	context.bezierCurveTo(65 + deltax, 31.25 + deltay, 65 + deltax, 12.5 + deltay, 50 + deltax, 12.5 + deltay);
+	context.bezierCurveTo(42.5 + deltax, 12.5 + deltay, 37.5 + deltax, 18.5 + deltay, 37.5 + deltax, 20 + deltay);
 	context.fillStyle = "red"; //color
 	context.fill();
 }
@@ -255,20 +256,20 @@ function DrawHeart(center) {
 function DrawCandy(center) {
 	context.beginPath();
 	context.fillStyle = "#ecc700"; //color
-	context.moveTo(25 + center.x - 30, 25 + center.y -30);
-	context.lineTo(25 + center.x - 30, 5 + center.y -30);
-	context.lineTo(5 + center.x - 30, 25 + center.y -30);
+	context.moveTo(25 + center.x - 30, 25 + center.y - 30);
+	context.lineTo(25 + center.x - 30, 5 + center.y - 30);
+	context.lineTo(5 + center.x - 30, 25 + center.y - 30);
 	context.fill();
 
 	context.beginPath();
-	context.moveTo(35 + center.x - 30, 35 + center.y -30);
-	context.lineTo(55 + center.x - 30, 35  + center.y -30);
-	context.lineTo(35 + center.x - 30, 55  + center.y -30);
+	context.moveTo(35 + center.x - 30, 35 + center.y - 30);
+	context.lineTo(55 + center.x - 30, 35 + center.y - 30);
+	context.lineTo(35 + center.x - 30, 55 + center.y - 30);
 	context.fill();
 	context.closePath();
 
 	context.beginPath();
-	context.arc(center.x, center.y, 12, 0. * Math.PI, 2* Math.PI); // half circle
+	context.arc(center.x, center.y, 12, 0. * Math.PI, 2 * Math.PI); // half circle
 	context.fillStyle = "#8300c7"; //color
 	context.fill();
 
@@ -287,16 +288,16 @@ function Draw() {
 			center.y = j * 60 + 30;
 			if (board[i][j] == 2) {
 				switch (pac_direction) {
-					case "left" :
+					case "left":
 						DrawPacManLeft(center);
 						break;
-					case "up" :
+					case "up":
 						DrawPacManUp(center);
 						break;
-					case "down" :
+					case "down":
 						DrawPacManDown(center);
 						break;
-					default :
+					default:
 						DrawPacManRight(center);
 				}
 			} else if (board[i][j] == 1) { //heart
@@ -324,18 +325,18 @@ function Draw() {
 				context.fillStyle = "grey"; //color
 				context.fill();
 			}
-			else if (board[i][j] > 10 &&  board[i][j] < 15 ){ //draw monsters
+			else if (board[i][j] > 10 && board[i][j] < 15) { //draw monsters
 				context.beginPath();
 				context.arc(center.x, center.y, 26, 0, 2 * Math.PI); // half circle
 				context.lineTo(center.x, center.y);
-				context.fillStyle = monster_colors[board[i][j] -11]; //color
+				context.fillStyle = monster_colors[board[i][j] - 11]; //color
 				context.fill();
 				context.beginPath();
-				context.arc(center.x - 12, center.y - 2 , 7, 0, 2 * Math.PI); // circle
+				context.arc(center.x - 12, center.y - 2, 7, 0, 2 * Math.PI); // circle
 				context.fillStyle = "white"; //color
 				context.fill();
 				context.beginPath();
-				context.arc(center.x + 12, center.y -2, 7, 0, 2 * Math.PI); // circle
+				context.arc(center.x + 12, center.y - 2, 7, 0, 2 * Math.PI); // circle
 				context.fillStyle = "white"; //color
 				context.fill();
 				context.beginPath();
@@ -368,7 +369,7 @@ function UpdatePosition() {
 	}
 	if (x == 3) {
 		//special loop
-		if(shape.i == 0 & shape.j ==5){
+		if (shape.i == 0 & shape.j == 5) {
 			shape.i = 15;
 			pac_direction = "left";
 		}
@@ -379,7 +380,7 @@ function UpdatePosition() {
 	}
 	if (x == 4) {
 		//special loop
-		if(shape.i == 15 & shape.j ==5){
+		if (shape.i == 15 & shape.j == 5) {
 			shape.i = 0;
 			pac_direction = "right";
 		}
@@ -389,22 +390,22 @@ function UpdatePosition() {
 		}
 	}
 	if (board[shape.i][shape.j] == 5) {
-		score+=5;
+		score += 5;
 	}
 	if (board[shape.i][shape.j] == 6) {
-		score+=10;
+		score += 10;
 	}
 	if (board[shape.i][shape.j] == 7) {
-		score+=25;
+		score += 25;
 	}
 	if (board[shape.i][shape.j] == 8) {
-		score+=40
-		if(moving_candy.prev == 5)
-			score+=5;
-		if(moving_candy.prev == 6)
-			score+=10;
-		if(moving_candy.prev == 7)
-			score+=25;
+		score += 40
+		if (moving_candy.prev == 5)
+			score += 5;
+		if (moving_candy.prev == 6)
+			score += 10;
+		if (moving_candy.prev == 7)
+			score += 25;
 		moving_candy.prev = 0;
 
 	}
@@ -425,7 +426,7 @@ function UpdatePosition() {
 	}
 }
 
-function isFood(cell){
+function isFood(cell) {
 	return cell > 4 && cell < 9
 }
 
@@ -433,60 +434,59 @@ function UpdateMonsterPosition() {
 	var eaten = false;
 	for (var i = 0; i < monsters.length; i++) {
 		var monster = monsters[i];
-		if(monster.prev == 2 || monster.prev ==8) {
+		if (monster.prev == 2 || monster.prev == 8) {
 			board[monster.i][monster.j] = 0;
 		}
 		else {
 			board[monster.i][monster.j] = monster.prev;
 		}
 		if (monster.j > shape.j && (board[monster.i][monster.j - 1] < 4 | isFood(board[monster.i][monster.j - 1]))) {
-			if (monster.j > 0 ) {
+			if (monster.j > 0) {
 				monster.prev = board[monster.i][monster.j - 1];
-				monster.j -- ;
+				monster.j--;
 			}
 		}
 		else if (monster.j < shape.j && (board[monster.i][monster.j + 1] < 4) | isFood(board[monster.i][monster.j + 1])) {
-			if (monster.j < 10 ) {
+			if (monster.j < 10) {
 				monster.prev = board[monster.i][monster.j + 1];
 				monster.j++;
 			}
 		}
-		else if (monster.i > shape.i && (board[monster.i -1 ][monster.j] < 4) | isFood(board[monster.i -1 ][monster.j])) {
-			if (monster.j > 0 ) {
-				monster.prev = board[monster.i -1][monster.j];
-				monster.i -- ;
+		else if (monster.i > shape.i && (board[monster.i - 1][monster.j] < 4) | isFood(board[monster.i - 1][monster.j])) {
+			if (monster.j > 0) {
+				monster.prev = board[monster.i - 1][monster.j];
+				monster.i--;
 			}
 		}
-		else if (monster.i < shape.i && (board[monster.i + 1][monster.j ] < 4) | isFood(board[monster.i +1 ][monster.j])) {
-			if (monster.j < 15 ) {
-				monster.prev = board[monster.i +1][monster.j];
+		else if (monster.i < shape.i && (board[monster.i + 1][monster.j] < 4) | isFood(board[monster.i + 1][monster.j])) {
+			if (monster.j < 15) {
+				monster.prev = board[monster.i + 1][monster.j];
 				monster.i++;
 			}
 		}
-		if(board[monster.i][monster.j] == 2) //eaten pacman
+		if (board[monster.i][monster.j] == 2) //eaten pacman
 		{
 			eaten = true;
 			break;
 		}
-		else{
+		else {
 			board[monster.i][monster.j] = monster.id;
 		}
 	}
 	Draw();
-	if(eaten){
-		var monster_positions = [[1,1],[1,10],[14,1],[14,10]];
-		score = Math.max(0,score - 10);
-		for (var k = 0; k < monsters.length; k++)
-		{
+	if (eaten) {
+		var monster_positions = [[1, 1], [1, 10], [14, 1], [14, 10]];
+		score = Math.max(0, score - 10);
+		for (var k = 0; k < monsters.length; k++) {
 			var monster = monsters[k];
 			var position = monster_positions[k];
-			board[monster.i][ monster.j] = monster.prev;
+			board[monster.i][monster.j] = monster.prev;
 			monster.i = position[0];
 			monster.j = position[1];
-			board[monster.i][ monster.j] = monster.id;
+			board[monster.i][monster.j] = monster.id;
 		}
 		pac_lives--;
-		if(pac_lives == 0){
+		if (pac_lives == 0) {
 			window.clearInterval(interval);
 			window.alert("Game Over");
 		}
@@ -500,62 +500,62 @@ function UpdateMonsterPosition() {
 }
 
 function UpdateMovingCandyPosition() {
-		if(moving_candy.eaten == true)
-			return;
-		if(board[moving_candy.i][moving_candy.j] == 2){
-			moving_candy.eaten = true;
-			moving_candy.prev = 0;
-			return;
-		}
-		if(moving_candy.prev == 2  | (moving_candy.prev > 10 && moving_candy.prev < 15) ) {
-			board[moving_candy.i][moving_candy.j] = 0;
-		}
-		else {
-			board[moving_candy.i][moving_candy.j] = moving_candy.prev;
-		}
-		var succeeded  = false;
-		while(!succeeded) {
-			var rndm = Math.floor(Math.random() * 4);
-			switch (rndm) {
-				case 0 :
-					if ((board[moving_candy.i][moving_candy.j - 1] < 4 | isFood(board[moving_candy.i][moving_candy.j - 1]))) {
-						if (moving_candy.j > 0) {
-							moving_candy.prev = board[moving_candy.i][moving_candy.j - 1];
-							moving_candy.j--;
-							succeeded = true;
-						}
+	if (moving_candy.eaten == true)
+		return;
+	if (board[moving_candy.i][moving_candy.j] == 2) {
+		moving_candy.eaten = true;
+		moving_candy.prev = 0;
+		return;
+	}
+	if (moving_candy.prev == 2 | (moving_candy.prev > 10 && moving_candy.prev < 15)) {
+		board[moving_candy.i][moving_candy.j] = 0;
+	}
+	else {
+		board[moving_candy.i][moving_candy.j] = moving_candy.prev;
+	}
+	var succeeded = false;
+	while (!succeeded) {
+		var rndm = Math.floor(Math.random() * 4);
+		switch (rndm) {
+			case 0:
+				if ((board[moving_candy.i][moving_candy.j - 1] < 4 | isFood(board[moving_candy.i][moving_candy.j - 1]))) {
+					if (moving_candy.j > 0) {
+						moving_candy.prev = board[moving_candy.i][moving_candy.j - 1];
+						moving_candy.j--;
+						succeeded = true;
 					}
-					break;
-				case 1 :
-					if ((board[moving_candy.i][moving_candy.j + 1] < 4) | isFood(board[moving_candy.i][moving_candy.j + 1])) {
-						if (moving_candy.j < 10) {
-							moving_candy.prev = board[moving_candy.i][moving_candy.j + 1];
-							moving_candy.j++;
-							succeeded = true;
-						}
+				}
+				break;
+			case 1:
+				if ((board[moving_candy.i][moving_candy.j + 1] < 4) | isFood(board[moving_candy.i][moving_candy.j + 1])) {
+					if (moving_candy.j < 10) {
+						moving_candy.prev = board[moving_candy.i][moving_candy.j + 1];
+						moving_candy.j++;
+						succeeded = true;
 					}
-					break;
-				case 2 :
-					if ((board[moving_candy.i - 1][moving_candy.j] < 4) | isFood(board[moving_candy.i - 1][moving_candy.j])) {
-						if (moving_candy.j > 0) {
-							moving_candy.prev = board[moving_candy.i - 1][moving_candy.j];
-							moving_candy.i--;
-							succeeded = true;
-						}
+				}
+				break;
+			case 2:
+				if ((board[moving_candy.i - 1][moving_candy.j] < 4) | isFood(board[moving_candy.i - 1][moving_candy.j])) {
+					if (moving_candy.j > 0) {
+						moving_candy.prev = board[moving_candy.i - 1][moving_candy.j];
+						moving_candy.i--;
+						succeeded = true;
 					}
-					break;
-				case 3 :
-					if ((board[moving_candy.i + 1][moving_candy.j] < 4) | isFood(board[moving_candy.i + 1][moving_candy.j])) {
-						if (moving_candy.j < 15) {
-							moving_candy.prev = board[moving_candy.i + 1][moving_candy.j];
-							moving_candy.i++;
-							succeeded = true;
-						}
+				}
+				break;
+			case 3:
+				if ((board[moving_candy.i + 1][moving_candy.j] < 4) | isFood(board[moving_candy.i + 1][moving_candy.j])) {
+					if (moving_candy.j < 15) {
+						moving_candy.prev = board[moving_candy.i + 1][moving_candy.j];
+						moving_candy.i++;
+						succeeded = true;
 					}
-					break;
-			}
+				}
+				break;
 		}
-		board[moving_candy.i][moving_candy.j] = 8;
+	}
+	board[moving_candy.i][moving_candy.j] = 8;
 }
 
 
