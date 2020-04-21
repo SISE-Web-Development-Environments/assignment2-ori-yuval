@@ -45,19 +45,22 @@
 					<article class="half">
 						<div class="tabs">
 							<span class="tab signin active">
-								<a href="#signin">Sign in</a>
+								<a>Sign in</a>
 							</span>
 							<span class="tab signup">
-								<a href="#signup">Sign up</a>
+								<a>Sign up</a>
 							</span>
 						</div>
 						<div class="content">
 							<div class="signin-cont cont">
 								<form action="#" name="signin" method="post" enctype="multipart/form-data">
-									<input type="email" name="email" id="email" class="inpt" placeholder="Your email">
-									<label for="email">Your username</label>
-									<input type="password" name="password" id="password" class="inpt" placeholder="Your password">
+
+									<input type="name" name="username_signin" id="username_signin" class="inpt" placeholder="Your username">
+									<label for="username">Your username</label>
+
+									<input type="password" name="password_signin" id="password_signin" class="inpt" placeholder="Your password">
 									<label for="password">Your password</label>
+
 									<div class="submit-wrap">
 										<input type="submit" value="Sign in" class="submit">
 									</div>
@@ -85,7 +88,7 @@
 									<label for="password">Your password</label>
 
 									<div class="submit-wrap">
-										<input type="submit" value="Sign up" class="submit">
+										<input type="submit" value="Sign Up" class="submit">
 									</div>
 								</form>
 							</div>
@@ -142,6 +145,10 @@
 	</div>
 
 	<script>
+		$("div.welcome_content").toggle(!localStorage.getItem('signed_in'));
+		$("div.options_content").toggle(localStorage.getItem('signed_in'));
+
+		const default_users = [{ username: 'p', password: 'p' }]
 		const contents = ['welcome', 'login', 'register', 'about', 'options', 'game']
 		$("button.nav").click(function () {
 			contents.forEach(content => $(this).val() === content ? $('div.' + $(this).val() + '_content').show() : $('div.' + content + '_content').hide())
@@ -164,6 +171,25 @@
 			var amountMovedX = (e.pageX * -1 / 30);
 			var amountMovedY = (e.pageY * -1 / 9);
 			$(this).css('background-position', amountMovedX + 'px ' + amountMovedY + 'px');
+		});
+
+		$("form").submit(function (event) {
+			if (localStorage.getItem('signed_in')) {
+				alert("Already signed in")
+				event.preventDefault();
+			}
+
+			var values = $(this).serializeArray();
+			default_users.forEach(user => {
+				if (user['username'] === values[0]['value'] &&
+					user['password'] === values[1]['value']
+				) {
+					localStorage.setItem('signed_in', true);
+					console.log(values[1]['value'])
+
+					return;
+				}
+			})
 		});
 
 		$.validator.addMethod("namecheck", function (value) {
@@ -232,6 +258,41 @@
 					email: {
 						required: "Please provide an email address",
 						email: "Please enter a valid email address"
+					},
+
+				},
+				// Make sure the form is submitted to the destination defined
+				// in the "action" attribute of the form when valid
+				submitHandler: function (form) {
+					form.submit();
+				}
+			});
+		});
+
+		// Wait for the DOM to be ready
+		$(function () {
+			// Initialize form validation on the registration form.
+			// It has the name attribute "registration"
+			$("form[name='signin']").validate({
+				// Specify validation rules
+				rules: {
+					// The key name on the left side is the name attribute
+					// of an input field. Validation rules are defined
+					// on the right side
+					username: "required",
+
+					password: {
+						required: true
+					}
+				},
+				// Specify validation error messages
+				messages: {
+					username: {
+						required: "Please provide a username",
+					},
+
+					password: {
+						required: "Please provide a password",
 					},
 
 				},
