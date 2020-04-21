@@ -4,7 +4,8 @@
 <head>
 	<script src="./jquery-3.4.1.slim.min.js"></script>
 	<script type="text/javascript" src="./app.js"></script>
-	<script src="jquery.validate.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -23,7 +24,7 @@
 		<!-- Header-->
 		<div class="header">
 			<h1>
-				<img class="logo" src="https://images.all-free-download.com/images/graphiclarge/pacman_56054.jpg" width="50" height: "30"
+				<img class="logo" src="https://images.all-free-download.com/images/graphiclarge/pacman_56054.jpg" width="50" height="30"
 				 style=" padding-top:20px; padding-left: 10px;" />
 				<span class="alt-logo">The Ultimate Pacman</span>
 			</h1>
@@ -31,10 +32,10 @@
 
 		<!-- Menu -->
 		<div class="scrollmenu">
-			<button class="nav" value="welcome" href="#home">Welcome</a>
-				<button class="nav" value="login" href="#login">Login</a>
-					<button class="nav" value="register" href="#register">Register</a>
-						<button class="nav" value="game" href="#about">About</a>
+			<button class="nav" value="welcome" href="#home">Welcome</button>
+			<button class="nav" value="login" href="#login">Login</button>
+			<button class="nav" value="register" href="#register">Register</button>
+			<button class="nav" value="game" href="#about">About</button>
 		</div>
 
 		<div class="content">
@@ -42,7 +43,6 @@
 			<div class="welcome_content">
 				<section class="container">
 					<article class="half">
-						<h1>Welcome!</h1>
 						<div class="tabs">
 							<span class="tab signin active">
 								<a href="#signin">Sign in</a>
@@ -53,10 +53,10 @@
 						</div>
 						<div class="content">
 							<div class="signin-cont cont">
-								<form action="#" method="post" enctype="multipart/form-data">
-									<input type="email" name="email" id="email" class="inpt" required="required" placeholder="Your email">
-									<label for="email">Your email</label>
-									<input type="password" name="password" id="password" class="inpt" required="required" placeholder="Your password">
+								<form action="#" name="signin" method="post" enctype="multipart/form-data">
+									<input type="email" name="email" id="email" class="inpt" placeholder="Your email">
+									<label for="email">Your username</label>
+									<input type="password" name="password" id="password" class="inpt" placeholder="Your password">
 									<label for="password">Your password</label>
 									<div class="submit-wrap">
 										<input type="submit" value="Sign in" class="submit">
@@ -64,13 +64,26 @@
 								</form>
 							</div>
 							<div class="signup-cont cont">
-								<form action="#" method="post" enctype="multipart/form-data">
-									<input type="name" name="name" id="name" class="inpt" required="required" placeholder="Your name">
-									<label for="name">Your name</label>
-									<input type="email" name="email" id="email" class="inpt" required="required" placeholder="Your email">
+								<form action="#" name="signup" method="post" enctype="multipart/form-data">
+
+									<input type="name" name="first" id="first" class="inpt" placeholder="Your first name">
+									<label for="name">Your first name</label>
+
+									<input type="name" name="last" id="last" class="inpt" placeholder="Your last name">
+									<label for="name">Your last name</label>
+
+									<input type="date" name="birth" id="birth" class="inpt" placeholder="Your date of birth">
+									<label for="name">Your date of birth</label>
+
+									<input type="name" name="username" id="username" class="inpt" placeholder="Your username">
+									<label for="name">Your username</label>
+
+									<input type="email" name="email" id="email" class="inpt" placeholder="Your email">
 									<label for="email">Your email</label>
-									<input type="password" name="password" id="password" class="inpt" required="required" placeholder="Your password">
+
+									<input type="password" name="password" id="password" class="inpt" placeholder="Your password">
 									<label for="password">Your password</label>
+
 									<div class="submit-wrap">
 										<input type="submit" value="Sign up" class="submit">
 									</div>
@@ -153,29 +166,85 @@
 			$(this).css('background-position', amountMovedX + 'px ' + amountMovedY + 'px');
 		});
 
-		// $("form").validate(
+		$.validator.addMethod("namecheck", function (value) {
+			return /^[A-Za-z]*$/.test(value) // consists of only these
+		});
 
-		// 	{
-		// 		rules: {
-		// 			username: {
-		// 				required: true,
-		// 				// Using the normalizer to trim the value of the element
-		// 				// before validating it.
-		// 				//
-		// 				// The value of `this` inside the `normalizer` is the corresponding
-		// 				// DOMElement. In this example, `this` references the `username` element.
-		// 				normalizer: function (value) {
-		// 					return $.trim(value);
-		// 				}
-		// 			}
-		// 		}
-		// 	}
-		// );
+		$.validator.addMethod("passwordcheck", function (value) {
+			return /^[A-Za-z0-9\d=!\-@._*]*$/.test(value) // consists of only these
+				&& /[a-z]/.test(value) // has a lowercase letter
+				&& /\d/.test(value) // has a digit
+		});
+
+		// Wait for the DOM to be ready
+		$(function () {
+			// Initialize form validation on the registration form.
+			// It has the name attribute "registration"
+			$("form[name='signup']").validate({
+				// Specify validation rules
+				rules: {
+					// The key name on the left side is the name attribute
+					// of an input field. Validation rules are defined
+					// on the right side
+					username: "required",
+					birth: "required",
+					first: {
+						required: true,
+						namecheck: true
+					},
+					last: {
+						required: true,
+						namecheck: true
+					},
+					email: {
+						required: true,
+						// Specify that email should be validated
+						// by the built-in "email" rule
+						email: true
+					},
+					password: {
+						required: true,
+						minlength: 6,
+						passwordcheck: true,
+					}
+				},
+				// Specify validation error messages
+				messages: {
+					username: {
+						required: "Please provide a username",
+					},
+					first: {
+						required: "Please provide a first name",
+						namecheck: "Please enter valid first name without digits"
+					},
+					last: {
+						required: "Please provide a last name",
+						namecheck: "Please enter valid last name without digits",
+					},
+					birth: {
+						required: "Please provide a birth of date",
+					},
+					password: {
+						required: "Please provide a password",
+						minlength: "Your password must be at least 6 characters long",
+						passwordcheck: "Please provide a valid password with letters and digits",
+					},
+					email: {
+						required: "Please provide an email address",
+						email: "Please enter a valid email address"
+					},
+
+				},
+				// Make sure the form is submitted to the destination defined
+				// in the "action" attribute of the form when valid
+				submitHandler: function (form) {
+					form.submit();
+				}
+			});
+		});
 
 
 	</script>
 </body>
-
-<div class="aa" style="display:none">aaaa</div>
 
 </html>
