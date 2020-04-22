@@ -125,20 +125,20 @@
 
 			<!-- Game content-->
 			<div class="game_content" style="display:none;">
-				<ul  >
-				<li id="score" class="game_test" style="display:inline;">
-					<label for="lblScore">SCORE:</label>
-					<input id="lblScore" type="text" />
-				</li>
-				<li id="time" style="display:inline;">
-					<label for="lblTime">TIME:</label>
-					<input id="lblTime" type="text" />
-				</li>
+				<ul>
+					<li id="score" class="game_test" style="display:inline;">
+						<label for="lblScore">SCORE:</label>
+						<input id="lblScore" type="text" />
+					</li>
+					<li id="time" style="display:inline;">
+						<label for="lblTime">TIME:</label>
+						<input id="lblTime" type="text" />
+					</li>
 
-				<li id="lives" style="display:inline;">
-					<label for="lblLives">Lives:</label>
-					<input id="lblLives" type="text" />
-				</li>
+					<li id="lives" style="display:inline;">
+						<label for="lblLives">Lives:</label>
+						<input id="lblLives" type="text" />
+					</li>
 				</ul>
 
 				<div id="game">
@@ -151,8 +151,16 @@
 	</div>
 
 	<script>
-		$("div.welcome_content").toggle(!localStorage.getItem('signed_in'));
-		$("div.options_content").toggle(localStorage.getItem('signed_in'));
+		if (!localStorage.getItem('signed_in')) {
+			console.log("bb")
+			$("div.options_content").hide();
+			$("div.welcome_content").show();
+		}
+		else {
+			console.log("aa")
+			$("div.welcome_content").hide();
+			$("div.options_content").show();
+		}
 
 		const default_users = [{ username: 'p', password: 'p' }]
 		const contents = ['welcome', 'login', 'register', 'about', 'options', 'game']
@@ -180,22 +188,25 @@
 		});
 
 		$("form").submit(function (event) {
-			if (localStorage.getItem('signed_in')) {
-				alert("Already signed in")
-				event.preventDefault();
-			}
 
+			var signed_in = {}
 			var values = $(this).serializeArray();
 			default_users.forEach(user => {
 				if (user['username'] === values[0]['value'] &&
 					user['password'] === values[1]['value']
 				) {
 					localStorage.setItem('signed_in', true);
-					console.log(values[1]['value'])
-
-					return;
+					signed_in = true;
+					alert("Signed In!")
 				}
+
 			})
+			if (signed_in !== true) {
+				alert("Password or username incorrect")
+				localStorage.removeItem('signed_in');
+				event.preventDefault();
+				return false;
+			}
 		});
 
 		$.validator.addMethod("namecheck", function (value) {
