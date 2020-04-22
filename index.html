@@ -225,9 +225,17 @@
 			$("#signin_content").hide()
 			$("#signout_content").show()
 			$("div.welcome_content").hide();
-			//$("div.options_content").show();
+			$("div.options_content").show();
 			var game_started = localStorage.getItem('game_started')
-			game_started ? $("div.game_content").show() : $("div.options_content").show();
+			if (game_started) {
+				$("div.options_content").hide()
+				$("div.game_content").show()
+			}
+			else {
+				$("div.game_content").hide()
+				$("div.options_content").show();
+
+			}
 		}
 
 		if (!localStorage.getItem('users'))
@@ -236,6 +244,7 @@
 		const contents = ['welcome', 'login', 'register', 'about', 'options', 'game', 'signout']
 		$("button.nav").click(function () {
 			console.log($(this).val())
+			localStorage.removeItem('game_started');
 			contents.forEach(content => $(this).val() === content ? $('div.' + $(this).val() + '_content').show() : $('div.' + content + '_content').hide())
 		});
 		$('.tabs .tab').click(function () {
@@ -243,7 +252,7 @@
 				$('.tabs .tab').removeClass('active');
 				$(this).addClass('active');
 				$('.cont').hide();
-				if (localStorage.getItem('users')) {
+				if (localStorage.getItem('signed_in')) {
 					$('.signin-cont').hide();
 					$('.signout-cont').show();
 				}
