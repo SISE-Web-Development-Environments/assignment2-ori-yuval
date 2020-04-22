@@ -104,7 +104,7 @@
 
 			</div>
 
-			<!-- About content-->
+			<!-- Options content-->
 			<div class="options_content" style="display:none;">
 				options
 
@@ -112,18 +112,24 @@
 
 			<!-- Game content-->
 			<div class="game_content" style="display:none;">
-				<div id="score" class="game_test">
+				<ul  >
+				<li id="score" class="game_test" style="display:inline;">
 					<label for="lblScore">SCORE:</label>
 					<input id="lblScore" type="text" />
-				</div>
-
-				<div id="time">
+				</li>
+				<li id="time" style="display:inline;">
 					<label for="lblTime">TIME:</label>
 					<input id="lblTime" type="text" />
-				</div>
+				</li>
+
+				<li id="lives" style="display:inline;">
+					<label for="lblLives">Lives:</label>
+					<input id="lblLives" type="text" />
+				</li>
+				</ul>
 
 				<div id="game">
-					<canvas id="canvas" height="750" width="1000"></canvas>
+					<canvas id="canvas" height="600" width="800"></canvas>
 				</div>
 			</div>
 		</div>
