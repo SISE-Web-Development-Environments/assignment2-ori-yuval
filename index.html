@@ -5,7 +5,9 @@
 	<script src="./jquery-3.4.1.slim.min.js"></script>
 	<script type="text/javascript" src="./app.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
-
+	<!-- jQuery Modal -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -32,10 +34,9 @@
 
 		<!-- Menu -->
 		<div class="scrollmenu">
-			<button class="nav" value="welcome" href="#home">Welcome</button>
-			<button class="nav" value="login" href="#login">Login</button>
-			<button class="nav" value="register" href="#register">Register</button>
-			<button class="nav" value="game" href="#about">About</button>
+			<button class="nav" value="welcome" id="welcome_button" href="#home">Welcome</button>
+			<button class="nav" value="welcome" href="#login">Login & Registration</button>
+			<a class="nav" value="about" href="#about" rel="modal:open">About</a>
 		</div>
 
 		<div class="content">
@@ -52,7 +53,9 @@
 							</span>
 						</div>
 						<div class="content">
-							<div class="signin-cont cont">
+
+							<!-- Sign in -->
+							<div class="signin-cont cont" id="signin_content">
 								<form action="#" name="signin" method="post" enctype="multipart/form-data">
 
 									<input type="name" name="username_signin" id="username_signin" class="inpt" placeholder="Your username">
@@ -66,6 +69,17 @@
 									</div>
 								</form>
 							</div>
+
+							<!-- Sign out -->
+							<div class="signout-cont cont" id="signout_content" style="display:none;">
+								<form action="#" name="signout" method="post" enctype="multipart/form-data">
+									<div class="submit-wrap">
+										<input type="submit" value="Sign Out" class="submit">
+									</div>
+								</form>
+							</div>
+
+							<!-- Sign up -->
 							<div class="signup-cont cont">
 								<form action="#" name="signup" method="post" enctype="multipart/form-data">
 
@@ -98,231 +112,299 @@
 
 			</div>
 
-
-			<!-- Login content-->
-			<div class="login_content" style="display:none;">
-
-				Login
-			</div>
-
-			<!-- Register content-->
-			<div class="register_content" style="display:none;">
-				Register
-
-			</div>
-
 			<!-- About content-->
-			<div class="about_content" style="display:none;">
-				About
-
+			<div id="about" class="about_content" class="modal" style="display:none;">
+				<p>Made by Yuval Lapidot, Ori Eldar</p>
+				<p>Plugins: jQuery Modal, Jquery Validate</p>
 			</div>
 
 			<!-- Options content-->
 			<div class="options_content" style="display:none;">
-				options
 
-			</div>
+				<section class="container">
+					<article class="half">
+						<div class="content">
+							<div class="content">
+								<form action="#" name="options" method="post" enctype="multipart/form-data">
+									<!-- Keys -->
+									<input type="name" name="up_key" id="up_key" class="inpt" placeholder="up_key">
+									<label for="up_key">up key</label>
+									<input type="name" name="down_key" id="down_key" class="inpt" placeholder="down_key">
+									<label for="down_key">down key</label>
+									<input type="name" name="right_key" id="right_key" class="inpt" placeholder="right_key">
+									<label for="right_key">right key</label>
+									<input type="name" name="left_key" id="left_key" class="inpt" placeholder="left_key">
+									<label for="left_key">left key</label>
 
-			<!-- Game content-->
-			<div class="game_content" style="display:none;">
-				<ul>
-					<li id="score" class="game_test" style="display:inline;">
-						<label for="lblScore">SCORE:</label>
-						<input id="lblScore" type="text" />
-					</li>
-					<li id="time" style="display:inline;">
-						<label for="lblTime">TIME:</label>
-						<input id="lblTime" type="text" />
-					</li>
+									<input type="name" name="balls" id="balls" class="inpt" placeholder="Number of balls">
+									<label for="balls">balls</label>
 
-					<li id="lives" style="display:inline;">
-						<label for="lblLives">Lives:</label>
-						<input id="lblLives" type="text" />
-					</li>
-				</ul>
+									<input type="name" name="balls_colors" id="balls_colors" class="inpt" placeholder="balls_colors">
+									<label for="balls_colors">balls_colors</label>
 
-				<div id="game">
-					<canvas id="canvas" height="600" width="800"></canvas>
+									<input type="name" name="time" id="time" class="inpt" placeholder="time">
+									<label for="time">time</label>
+
+									<input type="number" name="monsters" id="monsters" class="inpt" placeholder="Number of monsters">
+									<label for="monsters">Number of monsters</label>
+
+									<div class="submit-wrap">
+										<input type="submit" value="Update settings" class="submit">
+									</div>
+								</form>
+
+					</article>
+				</section>
 				</div>
+
+
+
+				<!-- Game content-->
+				<div class="game_content" style="display:none;">
+					<ul>
+						<li id="score" class="game_test" style="display:inline;">
+							<label for="lblScore">SCORE:</label>
+							<input id="lblScore" type="text" />
+						</li>
+						<li id="time" style="display:inline;">
+							<label for="lblTime">TIME:</label>
+							<input id="lblTime" type="text" />
+						</li>
+
+						<li id="lives" style="display:inline;">
+							<label for="lblLives">Lives:</label>
+							<input id="lblLives" type="text" />
+						</li>
+					</ul>
+
+					<div id="game">
+						<canvas id="canvas" height="600" width="800"></canvas>
+					</div>
+				</div>
+				</div>
+
 			</div>
+
 		</div>
-
-	</div>
-	</div>
-
-	<script>
-		if (!localStorage.getItem('signed_in')) {
-			console.log("bb")
-			$("div.options_content").hide();
-			$("div.welcome_content").show();
-		}
-		else {
-			console.log("aa")
-			$("div.welcome_content").hide();
-			$("div.options_content").show();
-		}
-
-		const default_users = [{ username: 'p', password: 'p' }]
-		const contents = ['welcome', 'login', 'register', 'about', 'options', 'game']
-		$("button.nav").click(function () {
-			contents.forEach(content => $(this).val() === content ? $('div.' + $(this).val() + '_content').show() : $('div.' + content + '_content').hide())
-		});
-		$('.tabs .tab').click(function () {
-			if ($(this).hasClass('signin')) {
-				$('.tabs .tab').removeClass('active');
-				$(this).addClass('active');
-				$('.cont').hide();
-				$('.signin-cont').show();
+		<footer class="site-footer">
+			The Ultimate Pacman, Yuval&Ori. Contact: Yuval&Ori@example.com
+		</footer>
+		<script>
+			if (!localStorage.getItem('signed_in')) {
+				//signed out setup
+				$("#welcome_button").val('welcome')
+				$("#signout_content").hide()
+				$("#signin_content").show()
+				$("div.options_content").hide();
+				$("div.welcome_content").show();
 			}
-			if ($(this).hasClass('signup')) {
-				$('.tabs .tab').removeClass('active');
-				$(this).addClass('active');
-				$('.cont').hide();
-				$('.signup-cont').show();
+			else {
+				//signed in setup
+				$("#welcome_button").val('options')
+				$("#signin_content").hide()
+				$("#signout_content").show()
+				$("div.welcome_content").hide();
+				$("div.options_content").show();
 			}
-		});
-		$('.container .bg').mousemove(function (e) {
-			var amountMovedX = (e.pageX * -1 / 30);
-			var amountMovedY = (e.pageY * -1 / 9);
-			$(this).css('background-position', amountMovedX + 'px ' + amountMovedY + 'px');
-		});
 
-		$("form").submit(function (event) {
+			if (!localStorage.getItem('users'))
+				localStorage.setItem('users', JSON.stringify([{ username: 'p', password: 'p' }]))
 
-			var signed_in = {}
-			var values = $(this).serializeArray();
-			default_users.forEach(user => {
-				if (user['username'] === values[0]['value'] &&
-					user['password'] === values[1]['value']
-				) {
-					localStorage.setItem('signed_in', true);
-					signed_in = true;
-					alert("Signed In!")
-				}
-
-			})
-			if (signed_in !== true) {
-				alert("Password or username incorrect")
-				localStorage.removeItem('signed_in');
-				event.preventDefault();
-				return false;
-			}
-		});
-
-		$.validator.addMethod("namecheck", function (value) {
-			return /^[A-Za-z]*$/.test(value) // consists of only these
-		});
-
-		$.validator.addMethod("passwordcheck", function (value) {
-			return /^[A-Za-z0-9\d=!\-@._*]*$/.test(value) // consists of only these
-				&& /[a-z]/.test(value) // has a lowercase letter
-				&& /\d/.test(value) // has a digit
-		});
-
-		// Wait for the DOM to be ready
-		$(function () {
-			// Initialize form validation on the registration form.
-			// It has the name attribute "registration"
-			$("form[name='signup']").validate({
-				// Specify validation rules
-				rules: {
-					// The key name on the left side is the name attribute
-					// of an input field. Validation rules are defined
-					// on the right side
-					username: "required",
-					birth: "required",
-					first: {
-						required: true,
-						namecheck: true
-					},
-					last: {
-						required: true,
-						namecheck: true
-					},
-					email: {
-						required: true,
-						// Specify that email should be validated
-						// by the built-in "email" rule
-						email: true
-					},
-					password: {
-						required: true,
-						minlength: 6,
-						passwordcheck: true,
+			const contents = ['welcome', 'login', 'register', 'about', 'options', 'game', 'signout']
+			$("button.nav").click(function () {
+				console.log($(this).val())
+				contents.forEach(content => $(this).val() === content ? $('div.' + $(this).val() + '_content').show() : $('div.' + content + '_content').hide())
+			});
+			$('.tabs .tab').click(function () {
+				if ($(this).hasClass('signin')) {
+					$('.tabs .tab').removeClass('active');
+					$(this).addClass('active');
+					$('.cont').hide();
+					if (localStorage.getItem('users')) {
+						$('.signin-cont').hide();
+						$('.signout-cont').show();
 					}
-				},
-				// Specify validation error messages
-				messages: {
-					username: {
-						required: "Please provide a username",
-					},
-					first: {
-						required: "Please provide a first name",
-						namecheck: "Please enter valid first name without digits"
-					},
-					last: {
-						required: "Please provide a last name",
-						namecheck: "Please enter valid last name without digits",
-					},
-					birth: {
-						required: "Please provide a birth of date",
-					},
-					password: {
-						required: "Please provide a password",
-						minlength: "Your password must be at least 6 characters long",
-						passwordcheck: "Please provide a valid password with letters and digits",
-					},
-					email: {
-						required: "Please provide an email address",
-						email: "Please enter a valid email address"
-					},
-
-				},
-				// Make sure the form is submitted to the destination defined
-				// in the "action" attribute of the form when valid
-				submitHandler: function (form) {
-					form.submit();
+					else {
+						$('.signout-cont').hide();
+						$('.signin-cont').show();
+					}
+				}
+				if ($(this).hasClass('signup')) {
+					$('.tabs .tab').removeClass('active');
+					$(this).addClass('active');
+					$('.cont').hide();
+					$('.signup-cont').show();
 				}
 			});
-		});
+			$('.container .bg').mousemove(function (e) {
+				var amountMovedX = (e.pageX * -1 / 30);
+				var amountMovedY = (e.pageY * -1 / 9);
+				$(this).css('background-position', amountMovedX + 'px ' + amountMovedY + 'px');
+			});
 
-		// Wait for the DOM to be ready
-		$(function () {
-			// Initialize form validation on the registration form.
-			// It has the name attribute "registration"
-			$("form[name='signin']").validate({
-				// Specify validation rules
-				rules: {
-					// The key name on the left side is the name attribute
-					// of an input field. Validation rules are defined
-					// on the right side
-					username: "required",
+			$("form").submit(function (event) {
+				var users = JSON.parse(localStorage.getItem('users'))
+				var values = $(this).serializeArray();
+				const options_form_identifier = 'up_key';
+				if (values[0] && values[0]['name'] === options_form_identifier) {
+					/*
+					options form
+					ori fill here
+					*/
+					console.log("options form submitted, you may change the identifier")
+				}
 
-					password: {
-						required: true
+				else if (!values[0]) {
+					//signout
+					localStorage.removeItem('signed_in');
+				}
+
+				else if (values[2]) {
+					//signup				
+					var username = values[3]['value']
+					var password = values[5]['value']
+					users.push({ username: username, password: password })
+					localStorage.setItem('users', JSON.stringify(users))
+					localStorage.removeItem('signed_in');
+				}
+
+				else {
+					//signin
+					var signed_in = {}
+
+					users.forEach(user => {
+						if (user['username'] === values[0]['value'] &&
+							user['password'] === values[1]['value']
+						) {
+							localStorage.setItem('signed_in', true);
+							signed_in = true;
+							alert("Signed In!")
+						}
+
+					})
+					if (signed_in !== true) {
+						alert("Password or username incorrect")
+						localStorage.removeItem('signed_in');
+						event.preventDefault();
+						return false;
 					}
-				},
-				// Specify validation error messages
-				messages: {
-					username: {
-						required: "Please provide a username",
-					},
-
-					password: {
-						required: "Please provide a password",
-					},
-
-				},
-				// Make sure the form is submitted to the destination defined
-				// in the "action" attribute of the form when valid
-				submitHandler: function (form) {
-					form.submit();
 				}
 			});
-		});
+
+			$.validator.addMethod("namecheck", function (value) {
+				return /^[A-Za-z]*$/.test(value) // consists of only these
+			});
+
+			$.validator.addMethod("passwordcheck", function (value) {
+				return /^[A-Za-z0-9\d=!\-@._*]*$/.test(value) // consists of only these
+					&& /[a-z]/.test(value) // has a lowercase letter
+					&& /\d/.test(value) // has a digit
+			});
+
+			// Wait for the DOM to be ready
+			$(function () {
+				// Initialize form validation on the registration form.
+				// It has the name attribute "registration"
+				$("form[name='signup']").validate({
+					// Specify validation rules
+					rules: {
+						// The key name on the left side is the name attribute
+						// of an input field. Validation rules are defined
+						// on the right side
+						username: "required",
+						birth: "required",
+						first: {
+							required: true,
+							namecheck: true
+						},
+						last: {
+							required: true,
+							namecheck: true
+						},
+						email: {
+							required: true,
+							// Specify that email should be validated
+							// by the built-in "email" rule
+							email: true
+						},
+						password: {
+							required: true,
+							minlength: 6,
+							passwordcheck: true,
+						}
+					},
+					// Specify validation error messages
+					messages: {
+						username: {
+							required: "Please provide a username",
+						},
+						first: {
+							required: "Please provide a first name",
+							namecheck: "Please enter valid first name without digits"
+						},
+						last: {
+							required: "Please provide a last name",
+							namecheck: "Please enter valid last name without digits",
+						},
+						birth: {
+							required: "Please provide a birth of date",
+						},
+						password: {
+							required: "Please provide a password",
+							minlength: "Your password must be at least 6 characters long",
+							passwordcheck: "Please provide a valid password with letters and digits",
+						},
+						email: {
+							required: "Please provide an email address",
+							email: "Please enter a valid email address"
+						},
+
+					},
+					// Make sure the form is submitted to the destination defined
+					// in the "action" attribute of the form when valid
+					submitHandler: function (form) {
+						form.submit();
+					}
+				});
+			});
+
+			// Wait for the DOM to be ready
+			$(function () {
+				// Initialize form validation on the registration form.
+				// It has the name attribute "registration"
+				$("form[name='signin']").validate({
+					// Specify validation rules
+					rules: {
+						// The key name on the left side is the name attribute
+						// of an input field. Validation rules are defined
+						// on the right side
+						username: "required",
+
+						password: {
+							required: true
+						}
+					},
+					// Specify validation error messages
+					messages: {
+						username: {
+							required: "Please provide a username",
+						},
+
+						password: {
+							required: "Please provide a password",
+						},
+
+					},
+					// Make sure the form is submitted to the destination defined
+					// in the "action" attribute of the form when valid
+					submitHandler: function (form) {
+						form.submit();
+					}
+				});
+			});
 
 
-	</script>
+		</script>
 </body>
 
 </html>

@@ -263,16 +263,7 @@ div.scrollmenu {
   }
   
   div.scrollmenu a {
-    display: inline-block;
-    color: black;
-    text-align: center;
-    font-family: 'Arial', 'Microsoft YaHei', '黑体', '宋体', sans-serif;
-    padding: 14px;
     text-decoration: none;
-  }
-  
-  div.scrollmenu a:hover {
-    background-color: #777;
   }
 
   div.header {
@@ -285,6 +276,14 @@ div.scrollmenu {
     position: relative;
     overflow: hidden;
     margin: 10px auto 0;
+    min-height: 100%;
+    /* equal to footer height */
+    margin-bottom: -50px; 
+  }
+
+  .content:after {
+    content: "";
+    display: block;
   }
 
   .nav {
@@ -312,7 +311,16 @@ div.scrollmenu {
     -webkit-transition: all 0.2s;
     transition: all 0.2s;
   }
-
+  
+ 
+  .site-footer, .content:after {
+    /* .push must be the same height as footer */
+      height: 140px; 
+  }
+  .site-footer {
+    background: #999999;
+    text-align: center;
+  }
 
 
   
