@@ -156,255 +156,258 @@
 						</div>
 					</article>
 				</section>
-				</div>
-
-
-
-				<!-- Game content-->
-				<div class="game_content" style="display:none;">
-					<ul>
-						<li id="score" class="game_test" style="display:inline;">
-							<label for="lblScore">SCORE:</label>
-							<input id="lblScore" type="text" />
-						</li>
-						<li id="time" style="display:inline;">
-							<label for="lblTime">TIME:</label>
-							<input id="lblTime" type="text" />
-						</li>
-
-						<li id="lives" style="display:inline;">
-							<label for="lblLives">Lives:</label>
-							<input id="lblLives" type="text" />
-						</li>
-					</ul>
-
-					<div id="game">
-						<canvas id="canvas" height="600" width="800"></canvas>
-					</div>
-				</div>
-				</div>
-
 			</div>
 
-		<footer class="site-footer">
-			The Ultimate Pacman, Yuval&Ori. Contact: Yuval&Ori@example.com
-		</footer>
-		<script>
-			if (!localStorage.getItem('signed_in')) {
-				//signed out setup
-				$("#welcome_button").val('welcome')
-				$("#signout_content").hide()
-				$("#signin_content").show()
-				$("div.options_content").hide();
-				$("div.welcome_content").show();
-			}
-			else {
-				//signed in setup
-				$("#welcome_button").val('options')
-				$("#signin_content").hide()
-				$("#signout_content").show()
-				$("div.welcome_content").hide();
-				$("div.options_content").show();
-			}
 
-			if (!localStorage.getItem('users'))
-				localStorage.setItem('users', JSON.stringify([{ username: 'p', password: 'p' }]))
 
-			const contents = ['welcome', 'login', 'register', 'about', 'options', 'game', 'signout']
-			$("button.nav").click(function () {
-				console.log($(this).val())
-				contents.forEach(content => $(this).val() === content ? $('div.' + $(this).val() + '_content').show() : $('div.' + content + '_content').hide())
-			});
-			$('.tabs .tab').click(function () {
-				if ($(this).hasClass('signin')) {
-					$('.tabs .tab').removeClass('active');
-					$(this).addClass('active');
-					$('.cont').hide();
-					if (localStorage.getItem('users')) {
-						$('.signin-cont').hide();
-						$('.signout-cont').show();
-					}
-					else {
-						$('.signout-cont').hide();
-						$('.signin-cont').show();
-					}
+			<!-- Game content-->
+			<div class="game_content" style="display:none;">
+				<ul>
+					<li id="score" class="game_test" style="display:inline;">
+						<label for="lblScore">SCORE:</label>
+						<input id="lblScore" type="text" />
+					</li>
+					<li id="time" style="display:inline;">
+						<label for="lblTime">TIME:</label>
+						<input id="lblTime" type="text" />
+					</li>
+
+					<li id="lives" style="display:inline;">
+						<label for="lblLives">Lives:</label>
+						<input id="lblLives" type="text" />
+					</li>
+				</ul>
+
+				<div id="game">
+					<canvas id="canvas" height="600" width="800"></canvas>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<footer class="site-footer">
+		The Ultimate Pacman, Yuval&Ori. Contact: Yuval&Ori@example.com
+	</footer>
+	<script>
+		if (!localStorage.getItem('signed_in')) {
+			//signed out setup
+			$("#welcome_button").val('welcome')
+			$("#signout_content").hide()
+			$("#signin_content").show()
+			$("div.options_content").hide();
+			$("div.welcome_content").show();
+		}
+		else {
+			//signed in setup
+			$("#welcome_button").val('options')
+			$("#signin_content").hide()
+			$("#signout_content").show()
+			$("div.welcome_content").hide();
+			//$("div.options_content").show();
+			var game_started = localStorage.getItem('game_started')
+			game_started ? $("div.game_content").show() : $("div.options_content").show();
+		}
+
+		if (!localStorage.getItem('users'))
+			localStorage.setItem('users', JSON.stringify([{ username: 'p', password: 'p' }]))
+
+		const contents = ['welcome', 'login', 'register', 'about', 'options', 'game', 'signout']
+		$("button.nav").click(function () {
+			console.log($(this).val())
+			contents.forEach(content => $(this).val() === content ? $('div.' + $(this).val() + '_content').show() : $('div.' + content + '_content').hide())
+		});
+		$('.tabs .tab').click(function () {
+			if ($(this).hasClass('signin')) {
+				$('.tabs .tab').removeClass('active');
+				$(this).addClass('active');
+				$('.cont').hide();
+				if (localStorage.getItem('users')) {
+					$('.signin-cont').hide();
+					$('.signout-cont').show();
 				}
-				if ($(this).hasClass('signup')) {
-					$('.tabs .tab').removeClass('active');
-					$(this).addClass('active');
-					$('.cont').hide();
-					$('.signup-cont').show();
-				}
-			});
-			$('.container .bg').mousemove(function (e) {
-				var amountMovedX = (e.pageX * -1 / 30);
-				var amountMovedY = (e.pageY * -1 / 9);
-				$(this).css('background-position', amountMovedX + 'px ' + amountMovedY + 'px');
-			});
-
-			$("form").submit(function (event) {
-				var users = JSON.parse(localStorage.getItem('users'))
-				var values = $(this).serializeArray();
-				const options_form_identifier = 'up_key';
-				if (values[0] && values[0]['name'] === options_form_identifier) {
-					/*
-					options form
-					ori fill here
-					*/
-					console.log("options form submitted, you may change the identifier")
-				}
-
-				else if (!values[0]) {
-					//signout
-					localStorage.removeItem('signed_in');
-				}
-
-				else if (values[2]) {
-					//signup				
-					var username = values[3]['value']
-					var password = values[5]['value']
-					users.push({ username: username, password: password })
-					localStorage.setItem('users', JSON.stringify(users))
-					localStorage.removeItem('signed_in');
-				}
-
 				else {
-					//signin
-					var signed_in = {}
+					$('.signout-cont').hide();
+					$('.signin-cont').show();
+				}
+			}
+			if ($(this).hasClass('signup')) {
+				$('.tabs .tab').removeClass('active');
+				$(this).addClass('active');
+				$('.cont').hide();
+				$('.signup-cont').show();
+			}
+		});
+		$('.container .bg').mousemove(function (e) {
+			var amountMovedX = (e.pageX * -1 / 30);
+			var amountMovedY = (e.pageY * -1 / 9);
+			$(this).css('background-position', amountMovedX + 'px ' + amountMovedY + 'px');
+		});
 
-					users.forEach(user => {
-						if (user['username'] === values[0]['value'] &&
-							user['password'] === values[1]['value']
-						) {
-							localStorage.setItem('signed_in', true);
-							signed_in = true;
-							alert("Signed In!")
-						}
+		$("form").submit(function (event) {
+			var users = JSON.parse(localStorage.getItem('users'))
+			var values = $(this).serializeArray();
+			const options_form_identifier = 'up_key';
+			if (values[0] && values[0]['name'] === options_form_identifier) {
+				localStorage.setItem('game_started', true)
+				/*
+				options form
+				ori fill here
+				*/
+				console.log("options form submitted, you may change the identifier")
+			}
 
-					})
-					if (signed_in !== true) {
-						alert("Password or username incorrect")
-						localStorage.removeItem('signed_in');
-						event.preventDefault();
-						return false;
+			else if (!values[0]) {
+				//signout
+				localStorage.removeItem('signed_in');
+			}
+
+			else if (values[2]) {
+				//signup				
+				var username = values[3]['value']
+				var password = values[5]['value']
+				users.push({ username: username, password: password })
+				localStorage.setItem('users', JSON.stringify(users))
+				localStorage.removeItem('signed_in');
+			}
+
+			else {
+				//signin
+				var signed_in = {}
+
+				users.forEach(user => {
+					if (user['username'] === values[0]['value'] &&
+						user['password'] === values[1]['value']
+					) {
+						localStorage.setItem('signed_in', true);
+						signed_in = true;
+						alert("Signed In!")
 					}
+
+				})
+				if (signed_in !== true) {
+					alert("Password or username incorrect")
+					localStorage.removeItem('signed_in');
+					event.preventDefault();
+					return false;
+				}
+			}
+		});
+
+		$.validator.addMethod("namecheck", function (value) {
+			return /^[A-Za-z]*$/.test(value) // consists of only these
+		});
+
+		$.validator.addMethod("passwordcheck", function (value) {
+			return /^[A-Za-z0-9\d=!\-@._*]*$/.test(value) // consists of only these
+				&& /[a-z]/.test(value) // has a lowercase letter
+				&& /\d/.test(value) // has a digit
+		});
+
+		// Wait for the DOM to be ready
+		$(function () {
+			// Initialize form validation on the registration form.
+			// It has the name attribute "registration"
+			$("form[name='signup']").validate({
+				// Specify validation rules
+				rules: {
+					// The key name on the left side is the name attribute
+					// of an input field. Validation rules are defined
+					// on the right side
+					username: "required",
+					birth: "required",
+					first: {
+						required: true,
+						namecheck: true
+					},
+					last: {
+						required: true,
+						namecheck: true
+					},
+					email: {
+						required: true,
+						// Specify that email should be validated
+						// by the built-in "email" rule
+						email: true
+					},
+					password: {
+						required: true,
+						minlength: 6,
+						passwordcheck: true,
+					}
+				},
+				// Specify validation error messages
+				messages: {
+					username: {
+						required: "Please provide a username",
+					},
+					first: {
+						required: "Please provide a first name",
+						namecheck: "Please enter valid first name without digits"
+					},
+					last: {
+						required: "Please provide a last name",
+						namecheck: "Please enter valid last name without digits",
+					},
+					birth: {
+						required: "Please provide a birth of date",
+					},
+					password: {
+						required: "Please provide a password",
+						minlength: "Your password must be at least 6 characters long",
+						passwordcheck: "Please provide a valid password with letters and digits",
+					},
+					email: {
+						required: "Please provide an email address",
+						email: "Please enter a valid email address"
+					},
+
+				},
+				// Make sure the form is submitted to the destination defined
+				// in the "action" attribute of the form when valid
+				submitHandler: function (form) {
+					form.submit();
 				}
 			});
+		});
 
-			$.validator.addMethod("namecheck", function (value) {
-				return /^[A-Za-z]*$/.test(value) // consists of only these
-			});
+		// Wait for the DOM to be ready
+		$(function () {
+			// Initialize form validation on the registration form.
+			// It has the name attribute "registration"
+			$("form[name='signin']").validate({
+				// Specify validation rules
+				rules: {
+					// The key name on the left side is the name attribute
+					// of an input field. Validation rules are defined
+					// on the right side
+					username: "required",
 
-			$.validator.addMethod("passwordcheck", function (value) {
-				return /^[A-Za-z0-9\d=!\-@._*]*$/.test(value) // consists of only these
-					&& /[a-z]/.test(value) // has a lowercase letter
-					&& /\d/.test(value) // has a digit
-			});
-
-			// Wait for the DOM to be ready
-			$(function () {
-				// Initialize form validation on the registration form.
-				// It has the name attribute "registration"
-				$("form[name='signup']").validate({
-					// Specify validation rules
-					rules: {
-						// The key name on the left side is the name attribute
-						// of an input field. Validation rules are defined
-						// on the right side
-						username: "required",
-						birth: "required",
-						first: {
-							required: true,
-							namecheck: true
-						},
-						last: {
-							required: true,
-							namecheck: true
-						},
-						email: {
-							required: true,
-							// Specify that email should be validated
-							// by the built-in "email" rule
-							email: true
-						},
-						password: {
-							required: true,
-							minlength: 6,
-							passwordcheck: true,
-						}
-					},
-					// Specify validation error messages
-					messages: {
-						username: {
-							required: "Please provide a username",
-						},
-						first: {
-							required: "Please provide a first name",
-							namecheck: "Please enter valid first name without digits"
-						},
-						last: {
-							required: "Please provide a last name",
-							namecheck: "Please enter valid last name without digits",
-						},
-						birth: {
-							required: "Please provide a birth of date",
-						},
-						password: {
-							required: "Please provide a password",
-							minlength: "Your password must be at least 6 characters long",
-							passwordcheck: "Please provide a valid password with letters and digits",
-						},
-						email: {
-							required: "Please provide an email address",
-							email: "Please enter a valid email address"
-						},
-
-					},
-					// Make sure the form is submitted to the destination defined
-					// in the "action" attribute of the form when valid
-					submitHandler: function (form) {
-						form.submit();
+					password: {
+						required: true
 					}
-				});
-			});
-
-			// Wait for the DOM to be ready
-			$(function () {
-				// Initialize form validation on the registration form.
-				// It has the name attribute "registration"
-				$("form[name='signin']").validate({
-					// Specify validation rules
-					rules: {
-						// The key name on the left side is the name attribute
-						// of an input field. Validation rules are defined
-						// on the right side
-						username: "required",
-
-						password: {
-							required: true
-						}
+				},
+				// Specify validation error messages
+				messages: {
+					username: {
+						required: "Please provide a username",
 					},
-					// Specify validation error messages
-					messages: {
-						username: {
-							required: "Please provide a username",
-						},
 
-						password: {
-							required: "Please provide a password",
-						},
-
+					password: {
+						required: "Please provide a password",
 					},
-					// Make sure the form is submitted to the destination defined
-					// in the "action" attribute of the form when valid
-					submitHandler: function (form) {
-						form.submit();
-					}
-				});
+
+				},
+				// Make sure the form is submitted to the destination defined
+				// in the "action" attribute of the form when valid
+				submitHandler: function (form) {
+					form.submit();
+				}
 			});
+		});
 
 
-		</script>
+	</script>
 </body>
 
 </html>
