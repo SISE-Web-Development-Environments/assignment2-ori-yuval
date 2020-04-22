@@ -127,25 +127,31 @@
 							<div class="content">
 								<form action="#" name="options" method="post" enctype="multipart/form-data">
 									<!-- Keys -->
-									<input type="name" name="up_key" id="up_key" class="inpt" placeholder="up_key">
+									<input name="up_key" id="up_key" class="inpt arrow" placeholder="Up Key">
 									<label for="up_key">up key</label>
-									<input type="name" name="down_key" id="down_key" class="inpt" placeholder="down_key">
+									<input  name="down_key" id="down_key" class="inpt arrow" placeholder="Down Key">
 									<label for="down_key">down key</label>
-									<input type="name" name="right_key" id="right_key" class="inpt" placeholder="right_key">
+									<input  name="right_key" id="right_key" class="inpt arrow" placeholder="Right Key">
 									<label for="right_key">right key</label>
-									<input type="name" name="left_key" id="left_key" class="inpt" placeholder="left_key">
+									<input name="left_key" id="left_key" class="inpt arrow" placeholder="Left Key">
 									<label for="left_key">left key</label>
+									<span id="ball_amount" >Number of food: 50</span>
+									<input type="range"  min="50" max="90" name="balls" value="50" id="balls" class="inpt" placeholder="Number of balls">
 
-									<input type="name" name="balls" id="balls" class="inpt" placeholder="Number of balls">
-									<label for="balls">balls</label>
+									<span>Ball color 1</span>
+									<input type="color" value="#e66465" name="balls_colors" id="balls_colors1" class="" placeholder="Ball Colors">
+									<span>Ball color 2</span>
+									<input type="color" value="#66C800" name="balls_colors" id="balls_colors2" class="" placeholder="Ball Colors">
+									<span>Ball color 3</span>
+									<input type="color" value="#000000	" name="balls_colors" id="balls_colors3" class="" placeholder="Ball Colors">
+									<br/><br/>
+									<span> Time in seconds: </span>
 
-									<input type="name" name="balls_colors" id="balls_colors" class="inpt" placeholder="balls_colors">
-									<label for="balls_colors">balls_colors</label>
-
-									<input type="name" name="time_set" id="time_set" class="inpt" placeholder="time_set">
+									<input type="number" min="60" name="time_set" id="time_set" class="inpt" placeholder="Time in seconds">
 									<label for="time_set">time_set</label>
 
-									<input type="number" name="monsters" id="monsters" class="inpt" placeholder="Number of monsters">
+									<span id="monster_amount" >Number of monsters: 2</span>
+									<input type="range"  min="1" max="4" value =2 name="monsters" id="monsters" class="inpt" placeholder="Number of monsters">
 									<label for="monsters">Number of monsters</label>
 
 									<div class="submit-wrap">
@@ -190,6 +196,21 @@
 		The Ultimate Pacman, Yuval&Ori. Contact: Yuval&Ori@example.com
 	</footer>
 	<script>
+
+		$(".arrow").on("keydown",function search(e) {
+				console.log(e.key);
+				$(this).val(e.key);
+		});
+
+		$("#balls").on( "change" ,function changed(e) {
+			$("#ball_amount").text("Number of food: " + $(this).val());
+		});
+
+		$("#monsters").on( "change" ,function changed(e) {
+			$("#monster_amount").text("Number of monsters: " + $(this).val());
+		});
+
+
 		if (!localStorage.getItem('signed_in')) {
 			//signed out setup
 			$("#welcome_button").val('welcome')

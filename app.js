@@ -19,7 +19,7 @@ potion_image.src = 'media/potion.png';
 
 //key
 // 0 - blank
-// 1 - heart/potion
+// 1 - life potion
 // 2 - pacman
 // 3 - slow motion clock
 // 4-  wall
