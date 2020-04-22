@@ -10,20 +10,18 @@ var pac_lives;
 var start_time;
 var time_elapsed;
 var interval;
-
-
-
-$(document).ready(function () {
-	context = canvas.getContext("2d");
-	Start();
-});
-
-const monster_colors = ["pink", "blue", "red", "orange"]
+var slow_motion;
+const audio = new Audio('pac_theme.mp3');
+const base_image = new Image();
+base_image.src = 'media/slowmo2.jpg'
+const potion_image = new Image();
+potion_image.src = 'media/potion.png';
 
 //key
 // 0 - blank
-// 1 - heart
+// 1 - heart/potion
 // 2 - pacman
+// 3 - slow motion clock
 // 4-  wall
 // 5 - small candy (5 points)
 // 6 - medium candy (10 points)
@@ -31,14 +29,22 @@ const monster_colors = ["pink", "blue", "red", "orange"]
 // 8 - moving candy (50 points)
 // 11,12,13,14 monsters accordingly
 
+$(document).ready(function () {
+	context = canvas.getContext("2d");
+	Start();
+});
 
+const monster_colors = ["pink", "blue", "red", "orange"]
+const corners = [[1, 1], [1, 10], [14, 1], [14, 10]];
 
 function Start() {
+	let emptyCell;
 	board = new Array();
 	score = 0;
 	pac_lives = 5;
 	pac_color = "yellow";
 	pac_direction = "right";
+	slow_motion = -1;
 	var cnt = 140;
 	var food_remain = 50;
 	var small_food = 0.6 * food_remain;
@@ -72,11 +78,10 @@ function Start() {
 				(i == 3 && j == 3) ||
 				(i == 3 && j == 4) ||
 				(i == 3 && j == 5) ||
-				(i == 6 && j == 1) ||
-				(i == 6 && j == 2) ||
+				(i == 5	 && j == 2) ||
 				(i >= 5 && i <= 7 && j <= 8 && j >= 6) ||
 				(i >= 10 && i <= 12 && j <= 8 && j >= 6) ||
-				(j > 2 && j < 9 && i % 6 == 0)
+				(j > 2 && j < 9 && i % 5 == 0)
 
 			) {
 				board[i][j] = 4;
@@ -111,7 +116,7 @@ function Start() {
 		}
 	}
 	while (food_remain > 0) {
-		var emptyCell = findRandomEmptyCell(board);
+		emptyCell = findRandomEmptyCell(board);
 		if (large_food > 0) {
 			large_food--;
 			board[emptyCell[0]][emptyCell[1]] = 7;
@@ -127,17 +132,25 @@ function Start() {
 		food_remain--;
 	}
 	if (pacman_remain > 0) {
-		var emptyCell = findRandomEmptyCell(board);
+		emptyCell = findRandomEmptyCell(board);
 		shape.i = emptyCell[0];
 		shape.j = emptyCell[1];
 		board[emptyCell[0]][emptyCell[1]] = 2;
 		pacman_remain--;
 	}
-	//Insert Extra life
-	var emptyCell = findRandomEmptyCell(board);
+	//Insert 2 Extra life
+	emptyCell = findRandomEmptyCell(board);
 	board[emptyCell[0]][emptyCell[1]] = 1;
+	emptyCell = findRandomEmptyCell(board);
+	board[emptyCell[0]][emptyCell[1]] = 1;
+	//Insert Slow Motion
+	emptyCell = findRandomEmptyCell(board);
+	board[emptyCell[0]][emptyCell[1]] = 3;
 	//Insert Moving candy
-	var emptyCell = findRandomEmptyCell(board);
+	if(monsters.length < 4)
+		emptyCell = corners[monsters.length]
+	else
+		emptyCell = findRandomEmptyCell(board);
 	board[emptyCell[0]][emptyCell[1]] = 8;
 	moving_candy.i = emptyCell[0];
 	moving_candy.j = emptyCell[1];
@@ -160,8 +173,7 @@ function Start() {
 		},
 		false
 	);
-	interval = setInterval(UpdatePosition, 250);
-	//monster_interval = setInterval(UpdateMonsterPosition, 300);
+	interval = setInterval(UpdatePosition, 150);
 }
 
 function findRandomEmptyCell(board) {
@@ -191,85 +203,95 @@ function GetKeyPressed() {
 
 function DrawPacManRight(center) {
 	context.beginPath();
-	context.arc(center.x, center.y, 30, 0.15 * Math.PI, 1.85 * Math.PI); // half circle
+	context.arc(center.x, center.y, 20, 0.15 * Math.PI, 1.85 * Math.PI); // half circle
 	context.lineTo(center.x, center.y);
 	context.fillStyle = pac_color; //color
 	context.fill();
 	context.beginPath();
-	context.arc(center.x + 5, center.y - 15, 5, 0, 2 * Math.PI); // circle
+	context.arc(center.x + 5, center.y - 12, 3, 0, 2 * Math.PI); // circle
 	context.fillStyle = "black"; //color
 	context.fill();
 }
 
 function DrawPacManLeft(center) {
 	context.beginPath();
-	context.arc(center.x, center.y, 30, 1.15 * Math.PI, 0.85 * Math.PI); // half circle
+	context.arc(center.x, center.y, 20, 1.15 * Math.PI, 0.85 * Math.PI); // half circle
 	context.lineTo(center.x, center.y);
 	context.fillStyle = pac_color; //color
 	context.fill();
 	context.beginPath();
-	context.arc(center.x - 5, center.y - 15, 5, 0, 2 * Math.PI); // circle
+	context.arc(center.x - 5, center.y - 12, 3, 0, 2 * Math.PI); // circle
 	context.fillStyle = "black"; //color
 	context.fill();
 }
 
 function DrawPacManUp(center) {
 	context.beginPath();
-	context.arc(center.x, center.y, 30, 1.65 * Math.PI, 1.35 * Math.PI); // half circle
+	context.arc(center.x, center.y, 20, 1.65 * Math.PI, 1.35 * Math.PI); // half circle
 	context.lineTo(center.x, center.y);
 	context.fillStyle = pac_color; //color
 	context.fill();
 	context.beginPath();
-	context.arc(center.x + 15, center.y, 5, 0, 2 * Math.PI); // circle
+	context.arc(center.x + 12, center.y, 3, 0, 2 * Math.PI); // circle
 	context.fillStyle = "black"; //color
 	context.fill();
 }
 
 function DrawPacManDown(center) {
 	context.beginPath();
-	context.arc(center.x, center.y, 30, 0.65 * Math.PI, 0.35 * Math.PI); // half circle
+	context.arc(center.x, center.y, 20, 0.65 * Math.PI, 0.35 * Math.PI); // half circle
 	context.lineTo(center.x, center.y);
 	context.fillStyle = pac_color; //color
 	context.fill();
 	context.beginPath();
-	context.arc(center.x - 15, center.y, 5, 0, 2 * Math.PI); // circle
+	context.arc(center.x - 12, center.y, 3, 0, 2 * Math.PI); // circle
 	context.fillStyle = "black"; //color
 	context.fill();
 }
 
 function DrawHeart(center) {
 	context.beginPath();
-	//context.moveTo(37.5, 20);
-	var deltax = center.x - 37.5;
-	var deltay = center.y - 35;
-	context.moveTo(center.x, center.y - 10);
-	context.bezierCurveTo(37.5 + deltax, 18.5 + deltay, 35 + deltax, 12.5 + deltay, 25 + deltax, 12.5 + deltay);
-	context.bezierCurveTo(10 + deltax, 12.5 + deltay, 10 + deltax, 31.25 + deltay, 10 + deltax, 31.25 + deltay);
-	context.bezierCurveTo(10 + deltax, 40 + deltay, 20 + deltax, 51 + deltay, 37.5 + deltax, 60 + deltay);
-	context.bezierCurveTo(55 + deltax, 51 + deltay, 65 + deltax, 40 + deltay, 65 + deltax, 31.25 + deltay);
-	context.bezierCurveTo(65 + deltax, 31.25 + deltay, 65 + deltax, 12.5 + deltay, 50 + deltax, 12.5 + deltay);
-	context.bezierCurveTo(42.5 + deltax, 12.5 + deltay, 37.5 + deltax, 18.5 + deltay, 37.5 + deltax, 20 + deltay);
+	//context.moveTo(28.125, 15);
+	var deltax = center.x - 28.125;
+	var deltay = center.y - 26.25;
+	context.moveTo(center.x, center.y - 7.5);
+	context.bezierCurveTo(28.125 + deltax, 13.875 + deltay, 26.25 + deltax, 9.375 + deltay, 18.75 + deltax, 9.375 + deltay);
+	context.bezierCurveTo(7.5 + deltax, 9.375 + deltay, 7.5 + deltax, 23.4375 + deltay, 7.5 + deltax, 23.4375 + deltay);
+	context.bezierCurveTo(7.5 + deltax, 30 + deltay, 15 + deltax, 38.25 + deltay, 28.125 + deltax, 45 + deltay);
+	context.bezierCurveTo(41.25 + deltax, 38.25 + deltay, 48.75 + deltax, 30 + deltay, 48.75 + deltax, 23.4375 + deltay);
+	context.bezierCurveTo(48.75 + deltax, 23.4375 + deltay, 48.75 + deltax, 9.375 + deltay, 37.5 + deltax, 9.375 + deltay);
+	context.bezierCurveTo(31.875 + deltax, 9.375 + deltay, 28.125 + deltax, 13.875 + deltay, 28.125 + deltax, 15 + deltay);
 	context.fillStyle = "red"; //color
 	context.fill();
+}
+
+function DrawClock(center)
+{
+	context.drawImage(base_image, center.x -20 ,center.y -20 ,40, 40);
+}
+
+function DrawPotion(center)
+{
+	context.drawImage(potion_image, center.x -20 ,center.y -20 ,40, 40);
 }
 
 function DrawCandy(center) {
 	context.beginPath();
 	context.fillStyle = "#ecc700"; //color
-	context.moveTo(25 + center.x - 30, 25 + center.y - 30);
-	context.lineTo(25 + center.x - 30, 5 + center.y - 30);
-	context.lineTo(5 + center.x - 30, 25 + center.y - 30);
+	context.moveTo( center.x - 5, center.y - 5);
+	context.lineTo( center.x - 5, center.y - 20);
+	context.lineTo( center.x - 20,  center.y - 5);
 	context.fill();
 
 	context.beginPath();
-	context.moveTo(35 + center.x - 30, 35 + center.y - 30);
-	context.lineTo(55 + center.x - 30, 35 + center.y - 30);
-	context.lineTo(35 + center.x - 30, 55 + center.y - 30);
+	context.moveTo(center.x + 5,  center.y + 5);
+	context.lineTo(center.x + 20,  center.y + 5);
+	context.lineTo(center.x  + 5, center.y + 20);
 	context.fill();
 	context.closePath();
 
 	context.beginPath();
-	context.arc(center.x, center.y, 12, 0. * Math.PI, 2 * Math.PI); // half circle
+	context.arc(center.x, center.y, 9, 0. * Math.PI, 2 * Math.PI); // half circle
 	context.fillStyle = "#8300c7"; //color
 	context.fill();
 
@@ -280,12 +302,13 @@ function Draw() {
 	context.clearRect(0, 0, canvas.width, canvas.height); //clean board
 	lblScore.value = score;
 	lblTime.value = time_elapsed;
+	lblLives.value = pac_lives;
 	var monsters_drawn = 0;
 	for (var i = 0; i < 16; i++) {
 		for (var j = 0; j < 12; j++) {
 			var center = new Object();
-			center.x = i * 60 + 30;
-			center.y = j * 60 + 30;
+			center.x = i * 45 + 22.5;
+			center.y = j * 45 + 22.5;
 			if (board[i][j] == 2) {
 				switch (pac_direction) {
 					case "left":
@@ -300,51 +323,71 @@ function Draw() {
 					default:
 						DrawPacManRight(center);
 				}
-			} else if (board[i][j] == 1) { //heart
-				DrawHeart(center);
+			} else if (board[i][j] == 1) { //heart/potion
+				DrawPotion(center);
+			} else if (board[i][j] == 3) { //slow motion
+				DrawClock(center);
 			} else if (board[i][j] == 5) { //small food
 				context.beginPath();
 				context.arc(center.x, center.y, 10, 0, 2 * Math.PI); // circle
 				context.fillStyle = "black"; //color
 				context.fill();
+				context.fillStyle = "white"; //color
+				context.font = "12px Arial";
+				context.fillText("5", center.x -3 , center.y + 4);
+
 			} else if (board[i][j] == 6) { // medium food
 				context.beginPath();
-				context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
+				context.arc(center.x, center.y, 13, 0, 2 * Math.PI); // circle
 				context.fillStyle = "#66c800"; //color
 				context.fill();
+				context.fillStyle = "white"; //color
+				context.font = "12px Arial";
+				context.fillText("10", center.x -7 , center.y + 4);
+
 			} else if (board[i][j] == 7) { //large food
 				context.beginPath();
-				context.arc(center.x, center.y, 20, 0, 2 * Math.PI); // circle
+				context.arc(center.x, center.y, 16, 0, 2 * Math.PI); // circle
 				context.fillStyle = "#00a0d4"; //color
 				context.fill();
+				context.fillStyle = "white"; //color
+				context.font = "12px Arial";
+				context.fillText("25", center.x -7 , center.y + 4);
 			} else if (board[i][j] == 8) { //moving food
 				DrawCandy(center);
 			} else if (board[i][j] == 4) {
 				context.beginPath();
-				context.rect(center.x - 30, center.y - 30, 60, 60);
+				context.rect(center.x - 22.5, center.y - 22.5, 45, 45);
 				context.fillStyle = "grey"; //color
 				context.fill();
 			}
 			else if (board[i][j] > 10 && board[i][j] < 15) { //draw monsters
+				if(slow_motion > 0 && slow_motion % 2 == 0){ //slow mo effects
+					context.beginPath();
+					context.arc(center.x, center.y, 20, 0, 2 * Math.PI); // half circle
+					context.lineTo(center.x, center.y);
+					context.fillStyle = "#a1000c"; //color
+					context.fill();
+				}
 				context.beginPath();
-				context.arc(center.x, center.y, 26, 0, 2 * Math.PI); // half circle
+				context.arc(center.x, center.y, 18, 0, 2 * Math.PI); // half circle
 				context.lineTo(center.x, center.y);
 				context.fillStyle = monster_colors[board[i][j] - 11]; //color
 				context.fill();
 				context.beginPath();
-				context.arc(center.x - 12, center.y - 2, 7, 0, 2 * Math.PI); // circle
+				context.arc(center.x - 8, center.y - 2, 5, 0, 2 * Math.PI); // circle
 				context.fillStyle = "white"; //color
 				context.fill();
 				context.beginPath();
-				context.arc(center.x + 12, center.y - 2, 7, 0, 2 * Math.PI); // circle
+				context.arc(center.x + 8, center.y - 2, 5, 0, 2 * Math.PI); // circle
 				context.fillStyle = "white"; //color
 				context.fill();
 				context.beginPath();
-				context.arc(center.x - 12, center.y, 5, 0, 2 * Math.PI); // circle
+				context.arc(center.x - 8, center.y, 3, 0, 2 * Math.PI); // circle
 				context.fillStyle = "black"; //color
 				context.fill();
 				context.beginPath();
-				context.arc(center.x + 12, center.y, 5, 0, 2 * Math.PI); // circle
+				context.arc(center.x + 8, center.y, 3, 0, 2 * Math.PI); // circle
 				context.fillStyle = "black"; //color
 				context.fill();
 			}
@@ -399,7 +442,7 @@ function UpdatePosition() {
 		score += 25;
 	}
 	if (board[shape.i][shape.j] == 8) {
-		score += 40
+		score += 50
 		if (moving_candy.prev == 5)
 			score += 5;
 		if (moving_candy.prev == 6)
@@ -412,6 +455,9 @@ function UpdatePosition() {
 	if (board[shape.i][shape.j] == 1) {
 		pac_lives++;
 	}
+	if (board[shape.i][shape.j] == 3) {
+		slow_motion = 50;
+	}
 	board[shape.i][shape.j] = 2;
 	var currentTime = new Date();
 	time_elapsed = (currentTime - start_time) / 1000;
@@ -422,6 +468,7 @@ function UpdatePosition() {
 	UpdateMonsterPosition();
 	if (score == 250) {
 		window.clearInterval(interval);
+		audio.pause()
 		window.alert("Game completed");
 	}
 }
@@ -431,6 +478,10 @@ function isFood(cell) {
 }
 
 function UpdateMonsterPosition() {
+	if(slow_motion > -1 && slow_motion-- % 2 == 0){
+		Draw();
+		return;
+	}
 	var eaten = false;
 	for (var i = 0; i < monsters.length; i++) {
 		var monster = monsters[i];
@@ -475,11 +526,10 @@ function UpdateMonsterPosition() {
 	}
 	Draw();
 	if (eaten) {
-		var monster_positions = [[1, 1], [1, 10], [14, 1], [14, 10]];
 		score = Math.max(0, score - 10);
 		for (var k = 0; k < monsters.length; k++) {
 			var monster = monsters[k];
-			var position = monster_positions[k];
+			var position = corners[k];
 			board[monster.i][monster.j] = monster.prev;
 			monster.i = position[0];
 			monster.j = position[1];
@@ -537,7 +587,7 @@ function UpdateMovingCandyPosition() {
 				break;
 			case 2:
 				if ((board[moving_candy.i - 1][moving_candy.j] < 4) | isFood(board[moving_candy.i - 1][moving_candy.j])) {
-					if (moving_candy.j > 0) {
+					if (moving_candy.i > 0) {
 						moving_candy.prev = board[moving_candy.i - 1][moving_candy.j];
 						moving_candy.i--;
 						succeeded = true;
@@ -546,7 +596,7 @@ function UpdateMovingCandyPosition() {
 				break;
 			case 3:
 				if ((board[moving_candy.i + 1][moving_candy.j] < 4) | isFood(board[moving_candy.i + 1][moving_candy.j])) {
-					if (moving_candy.j < 15) {
+					if (moving_candy.i < 14) {
 						moving_candy.prev = board[moving_candy.i + 1][moving_candy.j];
 						moving_candy.i++;
 						succeeded = true;
@@ -555,7 +605,15 @@ function UpdateMovingCandyPosition() {
 				break;
 		}
 	}
-	board[moving_candy.i][moving_candy.j] = 8;
+	if (moving_candy.i == shape.i && moving_candy.j == shape.j) {
+		moving_candy.eaten = true;
+		moving_candy.prev = 0;
+		score += 50;
+		board[moving_candy.i][moving_candy.j] = 2;
+	}
+	else {
+		board[moving_candy.i][moving_candy.j] = 8;
+	}
 }
 
 
