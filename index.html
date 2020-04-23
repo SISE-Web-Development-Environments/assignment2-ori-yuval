@@ -22,191 +22,196 @@
 </head>
 
 <body>
-	<div>
-		<!-- Header-->
-		<div class="header">
-			<h1>
-				<img class="logo" src="https://images.all-free-download.com/images/graphiclarge/pacman_56054.jpg" width="50" height="30"
-				 style=" padding-top:2px; padding-left: 2px;" />
-				<span class="alt-logo">The Ultimate Pacman</span>
-			</h1>
-		</div>
-
-		<!-- Menu -->
-		<div class="scrollmenu">
-			<button class="nav" value="welcome" id="welcome_button" href="#home">Welcome</button>
-			<button class="nav" value="welcome" href="#login">Login & Registration</button>
-			<a class="nav" value="about" href="#about" rel="modal:open">About</a>
-		</div>
-
-		<div class="content">
-			<!-- Welcome content-->
-			<div class="welcome_content">
-				<section class="container">
-					<article class="half">
-						<div class="tabs">
-							<span class="tab signin active">
-								<a>Sign in</a>
-							</span>
-							<span class="tab signup">
-								<a>Sign up</a>
-							</span>
-						</div>
-						<div class="content">
-
-							<!-- Sign in -->
-							<div class="signin-cont cont" id="signin_content">
-								<form action="#" name="signin" method="post" enctype="multipart/form-data">
-
-									<input type="name" name="username_signin" id="username_signin" class="inpt" placeholder="Your username">
-									<label for="username">Your username</label>
-
-									<input type="password" name="password_signin" id="password_signin" class="inpt" placeholder="Your password">
-									<label for="password">Your password</label>
-
-									<div class="submit-wrap">
-										<input type="submit" value="Sign in" class="submit">
-									</div>
-								</form>
-							</div>
-
-							<!-- Sign out -->
-							<div class="signout-cont cont" id="signout_content" style="display:none;">
-								<form action="#" name="signout" method="post" enctype="multipart/form-data">
-									<div class="submit-wrap">
-										<input type="submit" value="Sign Out" class="submit">
-									</div>
-								</form>
-							</div>
-
-							<!-- Sign up -->
-							<div class="signup-cont cont">
-								<form action="#" name="signup" method="post" enctype="multipart/form-data">
-
-									<input type="name" name="first" id="first" class="inpt" placeholder="Your first name">
-									<label for="name">Your first name</label>
-
-									<input type="name" name="last" id="last" class="inpt" placeholder="Your last name">
-									<label for="name">Your last name</label>
-
-									<input type="date" name="birth" id="birth" class="inpt" placeholder="Your date of birth">
-									<label for="name">Your date of birth</label>
-
-									<input type="name" name="username" id="username" class="inpt" placeholder="Your username">
-									<label for="name">Your username</label>
-
-									<input type="email" name="email" id="email" class="inpt" placeholder="Your email">
-									<label for="email">Your email</label>
-
-									<input type="password" name="password" id="password" class="inpt" placeholder="Your password">
-									<label for="password">Your password</label>
-
-									<div class="submit-wrap">
-										<input type="submit" value="Sign Up" class="submit">
-									</div>
-								</form>
-							</div>
-						</div>
-					</article>
-				</section>
-
-			</div>
-
-			<!-- About content-->
-			<div id="about" class="about_content" class="modal" style="display:none;">
-				<p>Made by Yuval Lapidot, Ori Eldar</p>
-				<p>Plugins: jQuery Modal, Jquery Validate</p>
-			</div>
-
-			<!-- Options content-->
-			<div class="options_content" style="display:none;">
-
-				<section class="container">
-					<article class="half">
-						<div class="content">
-							<div class="content">
-								<form action="#" name="options" method="post" enctype="multipart/form-data">
-									<!-- Keys -->
-									<input name="up_key" id="up_key" class="inpt arrow" placeholder="Up Key">
-									<label for="up_key">up key</label>
-									<input  name="down_key" id="down_key" class="inpt arrow" placeholder="Down Key">
-									<label for="down_key">down key</label>
-									<input  name="right_key" id="right_key" class="inpt arrow" placeholder="Right Key">
-									<label for="right_key">right key</label>
-									<input name="left_key" id="left_key" class="inpt arrow" placeholder="Left Key">
-									<label for="left_key">left key</label>
-									<span id="ball_amount" >Number of food: 50</span>
-									<input type="range"  min="50" max="90" name="balls" value="50" id="balls" class="inpt" placeholder="Number of balls">
-
-									<span>Ball color 1</span>
-									<input type="color" value="#e66465" name="balls_colors" id="balls_colors1" class="" placeholder="Ball Colors">
-									<span>Ball color 2</span>
-									<input type="color" value="#66C800" name="balls_colors" id="balls_colors2" class="" placeholder="Ball Colors">
-									<span>Ball color 3</span>
-									<input type="color" value="#000000	" name="balls_colors" id="balls_colors3" class="" placeholder="Ball Colors">
-									<br/><br/>
-									<span> Time in seconds: </span>
-
-									<input type="number" min="60" name="time_set" id="time_set" class="inpt" placeholder="Time in seconds">
-									<label for="time_set">time_set</label>
-
-									<span id="monster_amount" >Number of monsters: 2</span>
-									<input type="range"  min="1" max="4" value =2 name="monsters" id="monsters" class="inpt" placeholder="Number of monsters">
-									<label for="monsters">Number of monsters</label>
-
-									<div class="submit-wrap">
-										<input type="submit" value="Update settings" class="submit">
-									</div>
-								</form>
-							</div>
-						</div>
-					</article>
-				</section>
-			</div>
-
-
-
-			<!-- Game content-->
-			<div class="game_content" style="display:none;">
-				<ul>
-					<li id="score" class="game_test" style="display:inline;">
-						<label for="lblScore">SCORE:</label>
-						<input id="lblScore" type="text" />
-					</li>
-					<li id="time" style="display:inline;">
-						<label for="lblTime">TIME:</label>
-						<input id="lblTime" type="text" />
-					</li>
-
-					<li id="lives" style="display:inline;">
-						<label for="lblLives">Lives:</label>
-						<input id="lblLives" type="text" />
-					</li>
-				</ul>
-
-				<div id="game">
-					<canvas id="canvas" height="600" width="800"></canvas>
-				</div>
-			</div>
-		</div>
-
+	<!-- Header-->
+	<div class="header">
+		<h1>
+			<img class="logo" src="https://images.all-free-download.com/images/graphiclarge/pacman_56054.jpg" width="50" height="30"
+			 style=" padding-top:0.2vw; padding-left: 0.2vw;" />
+			<span class="alt-logo" style=" font-size: 1vw;">The Ultimate Pacman</span>
+		</h1>
 	</div>
+
+	<!-- Menu -->
+	<div class="scrollmenu">
+		<button class="nav" value="welcome" id="welcome_button" href="#home">Welcome</button>
+		<button class="nav" value="welcome" href="#login">Login & Registration</button>
+		<a class="nav" value="about" href="#about" rel="modal:open">About</a>
+	</div>
+
+	<div class="content">
+		<!-- Welcome content-->
+		<div class="welcome_content">
+			<section class="container">
+				<article class="half">
+					<div class="tabs">
+						<span class="tab signin active">
+							<a>Sign in</a>
+						</span>
+						<span class="tab signup">
+							<a>Sign up</a>
+						</span>
+					</div>
+					<div class="content">
+
+						<!-- Sign in -->
+						<div class="signin-cont cont" id="signin_content">
+							<form action="#" name="signin" method="post" enctype="multipart/form-data">
+
+								<input type="name" name="username_signin" id="username_signin" class="inpt" placeholder="Your username">
+								<label for="username">Your username</label>
+
+								<input type="password" name="password_signin" id="password_signin" class="inpt" placeholder="Your password">
+								<label for="password">Your password</label>
+
+								<div class="submit-wrap">
+									<input type="submit" value="Sign in" class="submit">
+								</div>
+							</form>
+						</div>
+
+						<!-- Sign out -->
+						<div class="signout-cont cont" id="signout_content" style="display:none;">
+							<form action="#" name="signout" method="post" enctype="multipart/form-data">
+								<div class="submit-wrap">
+									<input type="submit" value="Sign Out" class="submit">
+								</div>
+							</form>
+						</div>
+
+						<!-- Sign up -->
+						<div class="signup-cont cont">
+							<form action="#" name="signup" method="post" enctype="multipart/form-data">
+
+								<input type="name" name="first" id="first" class="inpt" placeholder="Your first name">
+								<label for="name">Your first name</label>
+
+								<input type="name" name="last" id="last" class="inpt" placeholder="Your last name">
+								<label for="name">Your last name</label>
+
+								<input type="date" name="birth" id="birth" class="inpt" placeholder="Your date of birth">
+								<label for="name">Your date of birth</label>
+
+								<input type="name" name="username" id="username" class="inpt" placeholder="Your username">
+								<label for="name">Your username</label>
+
+								<input type="email" name="email" id="email" class="inpt" placeholder="Your email">
+								<label for="email">Your email</label>
+
+								<input type="password" name="password" id="password" class="inpt" placeholder="Your password">
+								<label for="password">Your password</label>
+
+								<div class="submit-wrap">
+									<input type="submit" value="Sign Up" class="submit">
+								</div>
+							</form>
+						</div>
+					</div>
+				</article>
+			</section>
+
+		</div>
+
+		<!-- About content-->
+		<div id="about" class="about_content" class="modal" style="display:none;">
+			<p>Made by Yuval Lapidot, Ori Eldar</p>
+			<p>Plugins: jQuery Modal, Jquery Validate</p>
+		</div>
+
+		<!-- Options content-->
+		<div class="options_content" style="display:none;">
+
+			<section class="container">
+				<article class="half">
+					<div class="content">
+						<div class="content">
+							<form action="#" name="options" method="post" enctype="multipart/form-data">
+								<!-- Keys -->
+								<input name="up_key" id="up_key" class="inpt arrow" placeholder="Up Key">
+								<label for="up_key">up key</label>
+								<input name="down_key" id="down_key" class="inpt arrow" placeholder="Down Key">
+								<label for="down_key">down key</label>
+								<input name="right_key" id="right_key" class="inpt arrow" placeholder="Right Key">
+								<label for="right_key">right key</label>
+								<input name="left_key" id="left_key" class="inpt arrow" placeholder="Left Key">
+								<label for="left_key">left key</label>
+								<span id="ball_amount">Number of food: 50</span>
+								<input type="range" min="50" max="90" name="balls" value="50" id="balls" class="inpt" placeholder="Number of balls">
+
+								<span>Ball color 1</span>
+								<input type="color" value="#e66465" name="balls_colors" id="balls_colors1" class="" placeholder="Ball Colors">
+								<span>Ball color 2</span>
+								<input type="color" value="#66C800" name="balls_colors" id="balls_colors2" class="" placeholder="Ball Colors">
+								<span>Ball color 3</span>
+								<input type="color" value="#000000	" name="balls_colors" id="balls_colors3" class="" placeholder="Ball Colors">
+								<br/>
+								<br/>
+								<span> Time in seconds: </span>
+
+								<input type="number" min="60" name="time_set" id="time_set" class="inpt" placeholder="Time in seconds">
+								<label for="time_set">time_set</label>
+
+								<span id="monster_amount">Number of monsters: 2</span>
+								<input type="range" min="1" max="4" value=2 name="monsters" id="monsters" class="inpt" placeholder="Number of monsters">
+								<label for="monsters">Number of monsters</label>
+
+								<div class="submit-wrap">
+									<input type="submit" value="START GAME" class="submit">
+								</div>
+							</form>
+						</div>
+					</div>
+				</article>
+			</section>
+		</div>
+
+
+
+		<!-- Game content-->
+		<div class="game_content" style="display:none;">
+			<ul>
+				<li id="score" class="game_test" style="display:inline;">
+					<label for="lblScore">SCORE:</label>
+					<input id="lblScore" type="text" />
+				</li>
+				<li id="time" style="display:inline;">
+					<label for="lblTime">TIME:</label>
+					<input id="lblTime" type="text" />
+				</li>
+
+				<li id="lives" style="display:inline;">
+					<label for="lblLives">Lives:</label>
+					<input id="lblLives" type="text" />
+				</li>
+			</ul>
+
+			<section id="game">
+
+				<div id="canvas_wrapper">
+					<canvas id="canvas" height="500" width="700"></canvas>
+				</div>
+				<div class="settings">
+					<p>Game settings: 3 balls, 2 monsters, 50 seconds</p>
+				</div>
+			</section>
+		</div>
+	</div>
+
 
 	<footer class="site-footer">
 		The Ultimate Pacman, Yuval&Ori. Contact: Yuval&Ori@example.com
 	</footer>
 	<script>
 
-		$(".arrow").on("keydown",function search(e) {
-				console.log(e.key);
-				$(this).val(e.key);
+		$(".arrow").on("keydown", function search(e) {
+			console.log(e.key);
+			$(this).val(e.key);
 		});
 
-		$("#balls").on( "change" ,function changed(e) {
+		$("#balls").on("change", function changed(e) {
 			$("#ball_amount").text("Number of food: " + $(this).val());
 		});
 
-		$("#monsters").on( "change" ,function changed(e) {
+		$("#monsters").on("change", function changed(e) {
 			$("#monster_amount").text("Number of monsters: " + $(this).val());
 		});
 
