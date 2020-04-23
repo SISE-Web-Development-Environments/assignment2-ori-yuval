@@ -13,7 +13,7 @@ body .container {
   position: relative;
   overflow: hidden;
   width: 30vw;
-  height: 70vh;
+  height: 100%;
   margin: 0.5vw auto 0;
   background-color: #ffffff;
 }
@@ -56,7 +56,7 @@ body .container .tabs .tab.active {
 
 body .container .content form {
   position: relative;
-  height: 70vh;
+  height: 100%;
 }
 
 body .container .content label:not([for='remember']) {
