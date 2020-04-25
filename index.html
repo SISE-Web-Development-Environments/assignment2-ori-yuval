@@ -25,9 +25,9 @@
 	<!-- Header-->
 	<div class="header">
 		<h1>
-			<img class="logo" src="https://images.all-free-download.com/images/graphiclarge/pacman_56054.jpg" width="50" height="30"
+			<img class="logo" src="https://images.all-free-download.com/images/graphiclarge/pacman_56054.jpg" width="40" height="30"
 			 style=" padding-top:0.2vw; padding-left: 0.2vw;" />
-			<span class="alt-logo" style=" font-size: 1vw;">The Ultimate Pacman</span>
+			<span class="alt-logo" style=" font-size: 1.2vw;">The Ultimate Pacman</span>
 		</h1>
 	</div>
 
@@ -83,16 +83,16 @@
 							<form action="#" name="signup" method="post" enctype="multipart/form-data">
 
 								<input type="name" name="first" id="first" class="inpt" placeholder="Your first name">
-								<label for="name">Your first name</label>
+								<label for="first">Your first name</label>
 
 								<input type="name" name="last" id="last" class="inpt" placeholder="Your last name">
-								<label for="name">Your last name</label>
+								<label for="last">Your last name</label>
 
 								<input type="date" name="birth" id="birth" class="inpt" placeholder="Your date of birth">
-								<label for="name">Your date of birth</label>
+								<label for="birth">Your date of birth</label>
 
 								<input type="name" name="username" id="username" class="inpt" placeholder="Your username">
-								<label for="name">Your username</label>
+								<label for="username">Your username</label>
 
 								<input type="email" name="email" id="email" class="inpt" placeholder="Your email">
 								<label for="email">Your email</label>
@@ -118,7 +118,7 @@
 		</div>
 
 		<!-- Options content-->
-		<div class="options_content" style="display:none;">
+		<div id="options_content" class="options_content" style="display:none;">
 
 			<section class="container">
 				<article class="half">
@@ -126,41 +126,35 @@
 						<div class="content">
 							<form action="#" name="options" method="post" enctype="multipart/form-data">
 								<!-- Keys -->
-								<span>Up key</span>
-								<input name="up_key" id="up_key" class="inpt arrow" placeholder="Up Key">
-								<label for="up_key">up key</label>
-								<span>Down key</span>
-								<input name="down_key" id="down_key" class="inpt arrow" placeholder="Down Key">
-								<label for="down_key">down key</label>
-								<span>Right key</span>
-								<input name="right_key" id="right_key" class="inpt arrow" placeholder="Right Key">
-								<label for="right_key">right key</label>
-								<span>Left key</span>
-								<input name="left_key" id="left_key" class="inpt arrow" placeholder="Left Key">
-								<label for="left_key">left key</label>
+								<p class="arrow_field"> Up Key : <input name="up_key" id="up_key" value="ArrowUp" class="inpt arrow" placeholder="Up Key" ></p>
+								<p class="arrow_field">Down Key: <input name="down_key" id="down_key" value="ArrowDown" class="inpt arrow" placeholder="Down Key"></p>
+								<p class="arrow_field">Right Key: <input name="right_key" id="right_key" class="inpt arrow" value="ArrowRight"  placeholder="Right Key"></p>
+								<p class="arrow_field">Left Key: <input name="left_key" id="left_key" class="inpt arrow" value="ArrowLeft"  placeholder="Left Key"></p>
+
 								<span id="ball_amount">Number of food: 50</span>
 								<input type="range" min="50" max="90" name="balls" value="50" id="balls" class="inpt" placeholder="Number of balls">
 
-								<span>Ball color 1</span>
+								<p>Ball color 5 pts &nbsp;
 								<input type="color" value="#e66465" name="balls_colors" id="balls_colors1" class="" placeholder="Ball Colors">
-								<span>Ball color 2</span>
-								<input type="color" value="#66C800" name="balls_colors" id="balls_colors2" class="" placeholder="Ball Colors">
-								<span>Ball color 3</span>
-								<input type="color" value="#000000	" name="balls_colors" id="balls_colors3" class="" placeholder="Ball Colors">
-								<br/>
-								<br/>
-								<span> Time in seconds: </span>
+								</p>
+								<p>Ball color 10 pts
+								<input type="color" value="#66C800" name="balls_colors" id="balls_colors2" class="" placeholder="Ball Colors"></p>
 
-								<input type="number" min="60" name="time_set" id="time_set" class="inpt" placeholder="Time in seconds">
-								<label for="time_set">time_set</label>
+								<p>Ball color 25 pts
+								<input type="color" value="#000000" name="balls_colors" id="balls_colors3" class="" placeholder="Ball Colors"></p>
+								<br/>
+								<p class="arrow_field"> Total Time (s): <input type="number" min="60" name="time_set" id="time_set" value="60" class="inpt arrow" placeholder="Time in seconds"> </p>
 
 								<span id="monster_amount">Number of monsters: 2</span>
-								<input type="range" min="1" max="4" value=2 name="monsters" id="monsters" class="inpt" placeholder="Number of monsters">
+								<input type="range" min="1" max="4" value="2" name="monsters" id="monsters" class="inpt" placeholder="Number of monsters">
 								<label for="monsters">Number of monsters</label>
 
 								<div class="submit-wrap">
-									<input type="submit" value="START GAME" class="submit">
+									<input id="random_settings" type="button" value="Random" class="submit">
+									<input type="submit" value="Continue" class="submit">
 								</div>
+
+
 							</form>
 						</div>
 					</div>
@@ -172,30 +166,62 @@
 
 		<!-- Game content-->
 		<div class="game_content" style="display:none;">
-			<ul>
+			<ul id="game_data">
+				<li class="game_test" style="display:inline;">
+					Username: <span id="username_display" > </span>
+				</li>
+				<li style="display:inline">
+					<button id="start_game">START GAME</button>
+				</li>
 				<li id="score" class="game_test" style="display:inline;">
 					<label for="lblScore">SCORE:</label>
-					<input id="lblScore" type="text" />
+					<input id="lblScore" style="max-width: 80px" type="text" />
 				</li>
 				<li id="time" style="display:inline;">
 					<label for="lblTime">TIME:</label>
-					<input id="lblTime" type="text" />
+					<input id="lblTime"  style="max-width: 80px"  type="text" />
 				</li>
 
 				<li id="lives" style="display:inline;">
 					<label for="lblLives">Lives:</label>
-					<input id="lblLives" type="text" />
+					<input id="lblLives"  style="max-width: 80px"  type="text" />
 				</li>
 			</ul>
 
 			<section id="game">
 
 				<div id="canvas_wrapper">
-					<canvas id="canvas" height="500" width="700"></canvas>
+					<canvas id="canvas" height="540" width="750"></canvas>
 				</div>
 				<div class="settings">
-					<p>Game settings: 3 balls, 2 monsters, 50 seconds</p>
+					<p style="text-align:center">GAME SETTINGS </p>
+					<br/>
+					<p> Up Key: <span id="settings_up_key"> </span></p>
+					<p> Down Key: <span id="settings_down_key"> </span> </p>
+					<p> Right Key:<span id="settings_right_key"> </span> </p>
+					<p> Left Key: <span id="settings_left_key"> </span> </p>
+					<p> Number Of Balls: <span id="settings_ball_amount"></span> </p>
+					<p >Ball 5 pts &nbsp; <input type="color" value="#e66465" id="settings_balls_colors1" disabled/> </p>
+					<p >Ball 10 pts <input type="color" value="#66C800" id="settings_balls_colors2" disabled/> </p>
+					<p >Ball 25 pts <input type="color" value="#000000"  id="settings_balls_colors3" disabled/> </p>
+					<p >Total Game Time: <span id="settings_time_set"> </span> </p>
+					<p >Number Of Monsters: <span id="settings_monster_amount"></span> </p>
 				</div>
+
+				<script>
+				var settings = JSON.parse(localStorage.getItem("settings"));
+
+				$("#settings_up_key").text(settings.UpKey);
+				$("#settings_down_key").text(settings.DownKey);
+				$("#settings_left_key").text(settings.LeftKey);
+				$("#settings_right_key").text(settings.RightKey);
+				$("#settings_ball_amount").text(settings.NumberOfBalls);
+				$("#settings_balls_colors1").val(settings.BallColor1);
+				$("#settings_balls_colors2").val(settings.BallColor2);
+				$("#settings_balls_colors3").val(settings.BallColor3);
+				$("#settings_monster_amount").text(settings.NumberOfMonsters);
+				$("#settings_time_set").text(settings.TimesSet);
+				</script>
 			</section>
 		</div>
 	</div>
@@ -205,10 +231,28 @@
 		The Ultimate Pacman, Yuval&Ori. Contact: Yuval&Ori@example.com
 	</footer>
 	<script>
+		function randomIntFromRange(min, max) {
+			return Math.floor(Math.random() * (max - min + 1) + min);
+		}
 
-		$(".arrow").on("keydown", function search(e) {
-			console.log(e.key);
-			$(this).val(e.key);
+		$("#up_key").on("keydown", function search(e) {
+			setTimeout( () => $(this).val(e.key) , 5);
+			localStorage.setItem("up_keycode", e.keyCode)
+		});
+
+		$("#down_key").on("keydown", function search(e) {
+			setTimeout( () => $(this).val(e.key) , 5);
+			localStorage.setItem("down_keycode", e.keyCode)
+		});
+
+		$("#left_key").on("keydown", function search(e) {
+			setTimeout( () => $(this).val(e.key) , 5);
+			localStorage.setItem("left_keycode", e.keyCode)
+		});
+
+		$("#right_key").on("keydown", function search(e) {
+			setTimeout( () => $(this).val(e.key) , 5);
+			localStorage.setItem("right_keycode", e.keyCode)
 		});
 
 		$("#balls").on("change", function changed(e) {
@@ -217,6 +261,17 @@
 
 		$("#monsters").on("change", function changed(e) {
 			$("#monster_amount").text("Number of monsters: " + $(this).val());
+		});
+
+		$("#random_settings").on("click", function changed(e) {
+			$("#balls").val(randomIntFromRange(50,90));
+			$("#monsters").val(randomIntFromRange(1,4));
+			$("#time_set").val(randomIntFromRange(60,200));
+			$("#balls_colors1").val("#" + Math.floor(Math.random()*16777215).toString(16));
+			$("#balls_colors2").val("#" + Math.floor(Math.random()*16777215).toString(16));
+			$("#balls_colors3").val("#" + Math.floor(Math.random()*16777215).toString(16));
+			$("#monster_amount").text("Number of monsters: " + $("#monsters").val());
+			$("#ball_amount").text("Number of monsters: " + $("#balls").val());
 		});
 
 
@@ -230,7 +285,8 @@
 		}
 		else {
 			//signed in setup
-			$("#welcome_button").val('options')
+			$("#welcome_button").val('options');
+			$("#welcome_button").text('options');
 			$("#signin_content").hide()
 			$("#signout_content").show()
 			$("div.welcome_content").hide();
@@ -243,7 +299,10 @@
 			else {
 				$("div.game_content").hide()
 				$("div.options_content").show();
-
+					localStorage.setItem("up_keycode", "38");
+					localStorage.setItem("down_keycode", "40");
+					localStorage.setItem("left_keycode", "37");
+					localStorage.setItem("right_keycode", "39");
 			}
 		}
 
@@ -252,7 +311,13 @@
 
 		const contents = ['welcome', 'login', 'register', 'about', 'options', 'game', 'signout']
 		$("button.nav").click(function () {
-			console.log($(this).val())
+
+			if($(this).val() == "options"){
+				localStorage.setItem("up_keycode", "38");
+				localStorage.setItem("down_keycode", "40");
+				localStorage.setItem("left_keycode", "37");
+				localStorage.setItem("right_keycode", "39");
+			}
 			localStorage.removeItem('game_started');
 			contents.forEach(content => $(this).val() === content ? $('div.' + $(this).val() + '_content').show() : $('div.' + content + '_content').hide())
 		});
@@ -289,10 +354,25 @@
 			const options_form_identifier = 'up_key';
 			if (values[0] && values[0]['name'] === options_form_identifier) {
 				localStorage.setItem('game_started', true)
+
 				/*
 				options form
 				ori fill here
 				*/
+				var settings = {
+					UpKey : $("#up_key").val(),
+					DownKey : $("#down_key").val(),
+					LeftKey : $("#left_key").val(),
+					RightKey : $("#right_key").val(),
+					NumberOfBalls: $("#balls").val(),
+					BallColor1 : $("#balls_colors1").val(),
+					BallColor2 : $("#balls_colors2").val(),
+					BallColor3 : $("#balls_colors3").val(),
+					NumberOfMonsters : $("#monsters").val(),
+					TimesSet :  $("#time_set").val()
+				};
+				localStorage.setItem('settings', JSON.stringify(settings));
+
 				console.log("options form submitted, you may change the identifier")
 			}
 
@@ -319,6 +399,7 @@
 						user['password'] === values[1]['value']
 					) {
 						localStorage.setItem('signed_in', true);
+						localStorage.setItem('username', user['username']);
 						signed_in = true;
 						alert("Signed In!")
 					}
