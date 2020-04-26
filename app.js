@@ -45,8 +45,10 @@ $(document).ready(function () {
 		if(time_elapsed > 0){
 			location.reload();
 		}
-		startGame();
-		$(this).text("NEW GAME");
+		else {
+			startGame();
+			$(this).text("NEW GAME");
+		}
 	});
 
 });
@@ -211,13 +213,12 @@ function Load() {
 }
 
 function startGame() {
-	window.clearInterval(interval);
 	start_time = new Date();
-	interval = setInterval(UpdatePosition, 150);
 	score = 0;
 	pac_lives = 5;
 	slow_motion = -1;
 	audio.play();
+	countdown();
 }
 
 function findRandomEmptyCell(board) {
@@ -562,18 +563,49 @@ function UpdateMonsterPosition() {
 			board[monster.i][monster.j] = monster.id;
 		}
 		pac_lives--;
-		if (pac_lives == 0) {
-			window.clearInterval(interval);
-			audio.pause()
-			window.alert("Loser!");
-		}
 		var emptyCell = findRandomEmptyCell(board);
 		board[shape.i][shape.j] = 0;
 		shape.i = emptyCell[0];
 		shape.j = emptyCell[1];
 		board[emptyCell[0]][emptyCell[1]] = 2;
 		Draw();
+		if (pac_lives == 0) {
+			window.clearInterval(interval);
+			audio.pause()
+			window.alert("Loser!");
+		}
+		else{
+			countdown();
+		}
 	}
+}
+
+function countdown() {
+	window.clearInterval(interval);
+	document.getElementById("start_game").disabled = true;
+	setTimeout(() => {
+		Draw();
+		context.font = "92px Arial";
+		context.fillStyle = "red";
+		context.fillText("3", canvas.width/2 -10, canvas.height/2);
+	},10);
+	setTimeout(() => {
+		Draw();
+		context.font = "92px Arial ";
+		context.fillStyle = "red";
+		context.fillText("2", canvas.width/2 -10, canvas.height/2);
+	},1000);
+	setTimeout(() => {
+		Draw();
+		context.font = "92px Arial";
+		context.fillStyle = "red";
+		context.fillText("1", canvas.width/2 -10, canvas.height/2);
+	},2000);
+	setTimeout(() => {
+		Draw();
+		interval = setInterval(UpdatePosition, 150);
+		document.getElementById("start_game").disabled = false;
+	},3000);
 }
 
 function UpdateMovingCandyPosition() {
