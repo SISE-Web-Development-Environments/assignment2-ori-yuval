@@ -485,7 +485,7 @@ function UpdatePosition() {
 		pac_lives++;
 	}
 	if (board[shape.i][shape.j] == 3) {
-		slow_motion = 50;
+		slow_motion = 80;
 	}
 	board[shape.i][shape.j] = 2;
 	var currentTime = new Date();
