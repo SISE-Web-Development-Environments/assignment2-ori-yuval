@@ -6,8 +6,8 @@ Game URL : https://sise-web-development-environments.github.io/assignment2-ori-y
 By :  Ori Eldar 311128326 & Yuval Lapidot  204025647
 
 Game Functionalities Added :
-	- Added 2 potion bonuses, adding an extra life each when eaten by the Pacman.
-	- Added slow motion bonus, when eaten the monsters are slower by 50% for 12 seconds.
+-	 Added 2 potion bonuses, adding an extra life each when eaten by the Pacman.
+-	 Added slow motion bonus, when eaten the monsters are slower by 50% for 12 seconds.
 
 
 Extra functionalities we thought would make the gameplay more enjoyable:
